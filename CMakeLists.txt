@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 3.1)
+project(bfc)
+
+set(bfc_MAJOR_VERSION 0)
+set(bfc_MINOR_VERSION 1)
+set(bfc_PATCH_VERSION 0)
+set(bfc_VERSION
+	${bfc_MAJOR_VERSION}.${bfc_MINOR_VERSION}.${bfc_PATCH_VERSION}
+	)
+
+
+set (SRC
+	src/actorRep.cpp
+	src/exit.cpp
+	src/flag.cpp
+	src/masterThread.cpp
+	src/bfcmain.cpp
+	)
+
+set (HEADER
+	bfc/actor.hpp
+	bfc/actorRep.hpp
+	bfc/bfc.hpp
+	bfc/bfcmain.hpp
+	bfc/exit.hpp
+	bfc/factory.hpp
+	bfc/flag.hpp
+	bfc/masterThread.hpp
+	)
+
+set (GCC_COVERAGE_COMPILE_FLAGS "-g3 -std=c++17 -O2 -fno-stack-protector -DNDEBUG -Wall -fno-rtti -DUSE_LTM -DLTM_DESC -DMP_32BIT")
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+find_package(blc REQUIRED)
+
+# add_library(frame ${SRC} ${HEADER})
+add_library(frame STATIC ${SRC} ${HEADER})
+target_include_directories(frame PRIVATE .)
+target_include_directories(frame PRIVATE libtomcrypt/src/headers)
+target_link_libraries(frame PRIVATE Threads::Threads)
+target_link_libraries(frame PRIVATE blc)
+
+add_subdirectory(dev/)
+
+add_executable(test src/__dummy.cpp)
+
+target_link_libraries(test PRIVATE Threads::Threads)
+target_link_libraries(test PRIVATE blc)
+target_link_libraries(test PRIVATE frame)
+target_link_libraries(test PRIVATE devobj)
+target_link_libraries(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtomcrypt.a)
+target_link_libraries(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtommath.a)
+target_include_directories(test PRIVATE .)
+target_include_directories(test PRIVATE libtomcrypt/src/headers)
+
+
+add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
