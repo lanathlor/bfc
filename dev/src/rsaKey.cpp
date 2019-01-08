@@ -46,6 +46,8 @@ bkc::rsaKey &bkc::rsaKey::operator=(const bkc::rsaKey &other)
 	std::memcpy(&this->_key, &tmp, sizeof(rsa_key));
 	this->_pub = other.getPub();
 	this->_priv = other.getPriv();
+
+	return (*this);
 }
 
 void bkc::rsaKey::setKey(rsa_key key)
@@ -98,7 +100,7 @@ std::string bkc::rsaKey::sign(const std::string &msg) const
 
 	unsigned char sig[MAX_RSA_SIZE / 8];
 	unsigned long siglen = sizeof(sig);
-	int err = rsa_sign_hash_ex(hash, hash_desc.hashsize, sig, &siglen, padding, NULL, prng_idx, hash_idx, saltlen, &this->_key);
+	int err = rsa_sign_hash_ex(hash, hash_desc.hashsize, sig, &siglen, padding, NULL, prng_idx, hash_idx, saltlen, const_cast<rsa_key *>(&this->_key));
 	if (err != CRYPT_OK) throw blc::error::exception("Error signing with hash");
 
 	return (std::string(sig, sig + siglen));
@@ -120,7 +122,7 @@ bool bkc::rsaKey::verify(const std::string &msg, const std::string &sign) const
 	const unsigned long saltlen = 0;
 
 	int stat = 0;
-	rsa_verify_hash_ex((const unsigned char*)sign.data(), sign.size(), hash, hash_desc.hashsize, padding, hash_idx, saltlen, &stat, &this->_key);
+	rsa_verify_hash_ex((const unsigned char*)sign.data(), sign.size(), hash, hash_desc.hashsize, padding, hash_idx, saltlen, &stat, const_cast<rsa_key *>(&this->_key));
 	if (!stat) return false;
 
 	return (true);

@@ -37,7 +37,7 @@ find_package(blc REQUIRED)
 # add_library(frame ${SRC} ${HEADER})
 add_library(frame STATIC ${SRC} ${HEADER})
 target_include_directories(frame PRIVATE .)
-target_include_directories(frame PRIVATE libtomcrypt/src/headers)
+target_include_directories(frame PRIVATE dep/libtomcrypt/src/headers)
 target_link_libraries(frame PRIVATE Threads::Threads)
 target_link_libraries(frame PRIVATE blc)
 
@@ -52,7 +52,7 @@ target_link_libraries(test PRIVATE devobj)
 target_link_libraries(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtomcrypt.a)
 target_link_libraries(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtommath.a)
 target_include_directories(test PRIVATE .)
-target_include_directories(test PRIVATE libtomcrypt/src/headers)
+target_include_directories(test PRIVATE dep/libtomcrypt/src/headers)
 
 
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})

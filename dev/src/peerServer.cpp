@@ -17,7 +17,6 @@ void bkc::node::peerServ::thick()
 	int		sock;
 
 	std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(1));
-	bfc::cout << "ready to host peer" << blc::endl;
 	while (this->_kill == false){
 		if (this->_pipe.readable())
 			this->readMaster();

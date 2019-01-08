@@ -8,7 +8,7 @@ namespace bkc {
 		class admCon : public bfc::actor<admCon> {
 		public:
 			admCon() = delete;
-			admCon(blc::tools::pipe &pip, std::string name, std::string addr, int port);
+			admCon(blc::tools::pipe pip, std::string name, std::string addr, int port);
 
 			void admProto();
 			void masterProto();
@@ -18,7 +18,7 @@ namespace bkc {
 
 			void thick();
 		private:
-			blc::network::client2way			_client;
+			blc::network::Socket				_client;
 			blc::tools::protocolFactory<int, std::string>	_admProto;
 		};
 	}

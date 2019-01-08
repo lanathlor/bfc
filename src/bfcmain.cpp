@@ -5,6 +5,7 @@
 #include "bfc/flag.hpp"
 #include "bfc/masterThread.hpp"
 #include "bfc/exit.hpp"
+#include "bfc/outColor.hpp"
 
 #include <tomcrypt.h>
 

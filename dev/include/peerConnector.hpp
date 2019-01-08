@@ -18,11 +18,8 @@ namespace bkc {
 
 			void thick();
 		private:
-			blc::tools::pipe				_pipe;
 			blc::tools::protocolFactory<int, std::string>	_peerProto;
-			blc::tools::protocolFactory<int, std::string>	_masterProto;
 			blc::network::Socket				_client;
-			bool						_live;
 		};
 	}
 }

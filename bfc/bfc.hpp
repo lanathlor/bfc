@@ -7,3 +7,4 @@
 #include "bfc/bfcmain.hpp"
 #include "bfc/flag.hpp"
 #include "bfc/exit.hpp"
+#include "bfc/outColor.hpp"

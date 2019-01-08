@@ -29,6 +29,24 @@ void bkc::node::peerCon::peerProto()
 		this->send(280, this->getName());
 		return (280);
 	});
+	this->_peerProto.add(350, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(301, j["data"].get<std::string>());
+		return (0);
+	});
+	this->_peerProto.add(352, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(301, j["data"].get<std::string>());
+		return (0);
+	});
+	this->_peerProto.add(401, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(301, j["data"].get<std::string>());
+		return (0);
+	});
 }
 
 void bkc::node::servCon::peerProto()
@@ -55,5 +73,23 @@ void bkc::node::servCon::peerProto()
 		this->kill();
 		this->send(280, this->getName());
 		return (280);
+	});
+	this->_peerProto.add(350, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(301, j["data"].get<std::string>());
+		return (0);
+	});
+	this->_peerProto.add(352, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(301, j["data"].get<std::string>());
+		return (0);
+	});
+	this->_peerProto.add(401, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(301, j["data"].get<std::string>());
+		return (0);
 	});
 }

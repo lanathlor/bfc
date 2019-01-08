@@ -7,7 +7,8 @@ void bfc::masterThread::cinProto()
 		return (0);
 	});
 	this->_cin.add(301, [](std::string str){
-		bfc::masterThread::actor("adm").send(301, str);
+		if (bfc::flags::isSet("a") == false)
+			bfc::masterThread::actor("adm").send(301, str);
 		// bfc::masterThread::masterPipe["adm"] << str << blc::endl;
 		bfc::masterThread::for_each("peer*", [=](std::map<std::string, blc::tools::pipe>::iterator it){
 			bfc::masterThread::actor(it->first).send(301, str);

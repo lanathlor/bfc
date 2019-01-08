@@ -12,6 +12,8 @@ find_package(nlohmann_json 3.2.0 REQUIRED)
 set (SRCS
 	src/adminConnector.cpp
 	src/cinConnector.cpp
+	src/confFile.cpp
+	src/handleKeyParam.cpp
 	src/httpPost.cpp
 	src/main.cpp
 	src/peerConnector.cpp
@@ -39,6 +41,8 @@ set (HEADER
 	include/chainInfo.hpp
 	include/cinConnector.hpp
 	include/coInfo.hpp
+	include/confFile.hpp
+	include/handleKeyParam.hpp
 	include/identity.hpp
 	include/httpPost.hpp
 	include/meta.hpp
