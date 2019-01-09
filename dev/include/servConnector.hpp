@@ -19,11 +19,8 @@ namespace bkc {
 			void serviceLoop(blc::network::Client &cient, blc::network::Client &data);
 			void thick();
 		private:
+			blc::network::Client							_client;
 			blc::tools::protocolFactory<int, std::string>	_peerProto;
-			bool						_live;
-
-			blc::network::Client				_client;
-			blc::network::Client				*_data;
 		};
 	}
 }

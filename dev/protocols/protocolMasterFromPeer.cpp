@@ -10,4 +10,8 @@ void bfc::masterThread::peerProto()
 		bfc::masterThread::remove(str);
 		return (0);
 	});
+	this->_peer.add(352, [](std::string str){
+		bfc::masterThread::peerServer.push_back(str);
+		return (0);
+	});
 }

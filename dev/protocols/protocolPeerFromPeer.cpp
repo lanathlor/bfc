@@ -38,6 +38,7 @@ void bkc::node::peerCon::peerProto()
 	this->_peerProto.add(352, [=](std::string str){
 		json j = json::parse(str);
 
+		this->send(352, this->_client.getAddress() + j["data"].get<std::string>());
 		this->send(301, j["data"].get<std::string>());
 		return (0);
 	});
@@ -83,7 +84,8 @@ void bkc::node::servCon::peerProto()
 	this->_peerProto.add(352, [=](std::string str){
 		json j = json::parse(str);
 
-		this->send(301, j["data"].get<std::string>());
+		this->send(352, this->_client.getAddress() + j["data"].get<std::string>());
+		this->send(301, std::string("port : ") + j["data"].get<std::string>());
 		return (0);
 	});
 	this->_peerProto.add(401, [=](std::string str){

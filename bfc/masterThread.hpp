@@ -33,6 +33,7 @@ namespace bfc {
 
 		static std::map<std::string, bfc::actorRep *>		actors;
 		static std::map<std::string, blc::tools::pipe>		masterPipe;
+		static std::vector<std::string>				peerServer;
 
 		class outStream {
 		public:
@@ -62,6 +63,7 @@ namespace bfc {
 		static int						counter;
 		static std::thread::id					id;
 		static std::map<std::pair<std::string, int>, bool>	_connect;
+		static std::vector<std::pair<std::string, int>>		_peerServer;
 
 		blc::tools::protocolFactory<int, std::string>	_adm;
 		blc::tools::protocolFactory<int, std::string>	_cin;

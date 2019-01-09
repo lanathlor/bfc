@@ -10,6 +10,7 @@ std::thread::id						bfc::masterThread::id = std::this_thread::get_id();
 blc::tools::pipe					bfc::masterThread::outputPipe;
 blc::tools::pipe					bfc::masterThread::outputPipeSlave;
 std::map<std::pair<std::string, int>, bool>		bfc::masterThread::_connect;
+std::vector<std::string>				bfc::masterThread::peerServer;
 
 
 bfc::outStream bfc::cout = bfc::masterThread::outStream();
