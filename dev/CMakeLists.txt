@@ -13,6 +13,7 @@ set (SRCS
 	src/adminConnector.cpp
 	src/cinConnector.cpp
 	src/confFile.cpp
+	src/connectedPeer.cpp
 	src/handleKeyParam.cpp
 	src/httpPost.cpp
 	src/main.cpp
@@ -42,6 +43,7 @@ set (HEADER
 	include/cinConnector.hpp
 	include/coInfo.hpp
 	include/confFile.hpp
+	include/connectedPeer.hpp
 	include/handleKeyParam.hpp
 	include/identity.hpp
 	include/httpPost.hpp

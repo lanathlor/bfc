@@ -9,9 +9,7 @@ int							bfc::masterThread::counter = 0;
 std::thread::id						bfc::masterThread::id = std::this_thread::get_id();
 blc::tools::pipe					bfc::masterThread::outputPipe;
 blc::tools::pipe					bfc::masterThread::outputPipeSlave;
-std::map<std::pair<std::string, int>, bool>		bfc::masterThread::_connect;
-std::vector<std::string>				bfc::masterThread::peerServer;
-
+std::string						bfc::masterThread::_myself;
 
 bfc::outStream bfc::cout = bfc::masterThread::outStream();
 
@@ -157,19 +155,6 @@ bfc::actorRep	&bfc::masterThread::actor(const std::string &name)
 bfc::outStream &operator<<(bfc::outStream &stream, bfc::masterThread &master)
 {
 	return (stream);
-}
-
-bool bfc::masterThread::isConnected(const std::string &addresse, int port)
-{
-	if (bfc::masterThread::_connect.find(std::make_pair(addresse, port)) != bfc::masterThread::_connect.end()) {
-		return (true);
-	}
-	return (false);
-}
-
-void bfc::masterThread::connect(const std::string &addresse, int port)
-{
-	bfc::masterThread::_connect.emplace(std::make_pair(addresse, port), 1);
 }
 
 void bfc::masterThread::lifeCycle()

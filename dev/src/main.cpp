@@ -51,10 +51,9 @@ int bfc::main()
 		if (bfc::flags::isSet("a") == false) {
 			int port = blc::network::findFreePort();
 
+			bfc::masterThread::_myself = std::string("127.0.0.1:") + std::to_string(port);
 			std::cout << port << std::endl;
 			bfc::masterThread::actor("adm").send(352, std::to_string(port));
-			bfc::masterThread::actor("adm").send(350, "lanath");
-			bfc::masterThread::actor("adm").send(301, std::to_string(port));
 			bfc::masterThread::actor("adm").send(401);
 			bfc::masterThread::actor("adm").send(301, "ok");
 			bfc::factory<bkc::node::peerServ>("server", 50, port);

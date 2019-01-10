@@ -3,6 +3,8 @@
 #include "httpPost.hpp"
 #include "adminConnector.hpp"
 
+using json = nlohmann::json;
+
 bkc::node::admCon::admCon(blc::tools::pipe pipe, std::string name, std::string addr, int port) : actor(pipe, name), _client(addr, port)
 {
 	int newPort = 0;
@@ -72,7 +74,13 @@ void bkc::node::admCon::readAdm()
 void bkc::node::admCon::thick()
 {
 	this->_pipe = bfc::masterThread::pipe(this->getName());
-	// this->_client << "{\"data\":\"okidoki\", \"code\": 301}" << blc::endl << blc::endl;
+	json j = {
+			{"code", 401},
+			{"data", ""},
+			{"user", "lanath"}
+		};
+	// this->_client << j.dump() << blc::endl << blc::endl;
+
 	while (this->isAlive()){
 		if (this->_pipe.readable())
 			this->readMaster();

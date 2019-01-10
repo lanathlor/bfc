@@ -1,19 +1,17 @@
 #include <nlohmann/json.hpp>
 #include "servConnector.hpp"
+#include "connectedPeer.hpp"
 #include "httpPost.hpp"
+
+using json = nlohmann::json;
 
 bkc::node::servCon::servCon(blc::tools::pipe pipe, std::string name, int sock, struct sockaddr client) : actor(pipe, name), _client(sock, client)
 {
-	if (bfc::masterThread::isConnected(this->_client.getAddress(), this->_client.getPort()) == true) {
-		bfc::cout << "will not connect" << blc::endl;
-	} else {
-		bfc::masterThread::connect(this->_client.getAddress(), this->_client.getPort());
-	}
-
 	this->peerProto();
 	this->masterProto();
 
 	this->start();
+	this->_client << json({{"code", 301}, {"data", "ok"}}).dump() << blc::endl << blc::endl;
 }
 
 void bkc::node::servCon::readMaster()
@@ -73,7 +71,6 @@ void bkc::node::servCon::serviceLoop(blc::network::Client &cient, blc::network::
 
 void bkc::node::servCon::thick()
 {
-	// this->_client << "{\"data\":\"okidoki\", \"code\": 301}" << blc::endl << blc::endl;
 	while (this->isAlive()){
 		if (this->_pipe.readable())
 			this->readMaster();

@@ -2,11 +2,16 @@
 #include <bfc/bfc.hpp>
 
 #include "peerConnector.hpp"
+#include "connectedPeer.hpp"
 
 void bfc::masterThread::adminProto()
 {
 	this->_adm.add(280, [](std::string str){
 		bfc::masterThread::kill();
+		return (0);
+	});
+	this->_adm.add(300, [this](std::string str){
+		this->_myself = str;
 		return (0);
 	});
 	this->_adm.add(301, [](std::string str){
@@ -16,7 +21,7 @@ void bfc::masterThread::adminProto()
 	this->_adm.add(302, [this](std::string str){
 		for (int i = str.find(';'); i != std::string::npos; i = str.find(';')){
 			std::string tmp = blc::tools::serializable::cut(str, ';');
-			if (std::find(this->_knownPeer.begin(), this->_knownPeer.end(), tmp) == this->_knownPeer.end()){
+			if (std::find(this->_knownPeer.begin(), this->_knownPeer.end(), tmp) == this->_knownPeer.end() && tmp != bfc::masterThread::_myself){
 				int port = 0;
 				std::string addr = tmp.substr(0, tmp.find(':'));
 
@@ -28,11 +33,11 @@ void bfc::masterThread::adminProto()
 				}
 
 				this->_knownPeer.push_back(tmp);
-				if (bfc::masterThread::isConnected(addr, port) == true) {
+				if (bkc::connectedPeer::isConnected(addr, port) == true) {
 					std::cout << tmp << " is duble" << std::endl;
 				} else {
 					bfc::factory<bkc::node::peerCon>("peerClient" + std::to_string(std::rand()), addr, port);
-					bfc::masterThread::connect(addr, port);
+					bkc::connectedPeer::connect(addr, port);
 				}
 				bfc::cout << "new peer : " << tmp << blc::endl;
 			}
@@ -45,10 +50,6 @@ void bfc::masterThread::adminProto()
 				this->_knownPeer.erase(it);
 			}
 		}
-		return (0);
-	});
-	this->_adm.add(300, [this](std::string str){
-		this->_myself = str;
 		return (0);
 	});
 }

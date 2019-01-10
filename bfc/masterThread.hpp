@@ -27,13 +27,10 @@ namespace bfc {
 
 		void lifeCycle();
 
-		static bool isConnected(const std::string &addresse, int port);
-		static void connect(const std::string &addresse, int port);
-
-
 		static std::map<std::string, bfc::actorRep *>		actors;
 		static std::map<std::string, blc::tools::pipe>		masterPipe;
 		static std::vector<std::string>				peerServer;
+		static std::string					_myself;
 
 		class outStream {
 		public:
@@ -54,7 +51,6 @@ namespace bfc {
 		masterThread();
 
 		std::vector<std::string>				_knownPeer;
-		std::string						_myself;
 
 		static blc::tools::pipe					outputPipeSlave;
 		static blc::tools::pipe					outputPipe;
@@ -62,8 +58,6 @@ namespace bfc {
 		static bool						live;
 		static int						counter;
 		static std::thread::id					id;
-		static std::map<std::pair<std::string, int>, bool>	_connect;
-		static std::vector<std::pair<std::string, int>>		_peerServer;
 
 		blc::tools::protocolFactory<int, std::string>	_adm;
 		blc::tools::protocolFactory<int, std::string>	_cin;

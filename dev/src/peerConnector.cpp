@@ -3,6 +3,8 @@
 #include "peerConnector.hpp"
 #include "httpPost.hpp"
 
+using json = nlohmann::json;
+
 bkc::node::peerCon::peerCon(blc::tools::pipe pipe, std::string name, std::string addr, int port) : actor(pipe, name), _client(addr, port)
 {
 	int newPort = 0;
@@ -17,6 +19,7 @@ bkc::node::peerCon::peerCon(blc::tools::pipe pipe, std::string name, std::string
 	}
 
 	this->start();
+	this->_client << json({{"code", 301}, {"data", "ok"}}).dump() << blc::endl << blc::endl;
 }
 
 void bkc::node::peerCon::readMaster()
