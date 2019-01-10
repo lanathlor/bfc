@@ -24,7 +24,8 @@ static bool createKey(std::string pub_name, std::string pri_name)
 		std::ofstream pri(pri_name);
 
 		std::cout << green << "public key file : " << def << pub_name << std::endl;
-		std::cout << green << "private key file : " << def << pri_name << std::endl << green << "keep it safe and sound. don't share it. it make you able to authentificate." << std::endl;
+		std::cout << green << "private key file : " << def << pri_name << std::endl;
+		std::cout << green << "keep it safe and sound. don't share it. it make you able to authentificate." << def << std::endl;
 
 		pub << key.getPub();
 		pri << key.getPriv();

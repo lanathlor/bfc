@@ -8,6 +8,7 @@
 
 #include "handleKeyParam.hpp"
 #include "confFile.hpp"
+#include "initChain.hpp"
 
 #include "rsaKey.hpp"
 
@@ -17,25 +18,14 @@
 
 bkc::rsaKey	bkc::myLog;
 
-// auto flags = std::cout.flags();
-// std::cout.fill('0');
-// std::cout.width(2);
-// for (unsigned char c : bkc::myLog.getPub()){
-// 	std::cout << std::hex << +c;
-// }
-// std::cout << std::endl;
-// std::cout.flags(flags);
-
-// std::vector<std::string> bfc::ReqFlags()
-// {
-// 	// return (std::vector<std::string>({"pub", "priv", "N", "P"}));
-// 	return (std::vector<std::string>({}));
-// }
-
 void bfc::initActor()
 {
 	if (handleKey() == false)
 		return;
+	if (bfc::flags::isSet("init")){
+		if (!bkc::initChain())
+			return;
+	}
 	if (bfc::flags::isSet("conf")) {
 		readConfFile(bfc::flags::getValue("conf"));
 	} else {

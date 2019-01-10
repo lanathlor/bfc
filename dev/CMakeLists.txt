@@ -16,6 +16,7 @@ set (SRCS
 	src/connectedPeer.cpp
 	src/handleKeyParam.cpp
 	src/httpPost.cpp
+	src/initChain.cpp
 	src/main.cpp
 	src/peerConnector.cpp
 	src/peerServer.cpp
@@ -46,6 +47,7 @@ set (HEADER
 	include/connectedPeer.hpp
 	include/handleKeyParam.hpp
 	include/identity.hpp
+	include/initChain.hpp
 	include/httpPost.hpp
 	include/meta.hpp
 	include/peerConnector.hpp
