@@ -52,7 +52,7 @@ void bfc::masterThread::for_each(const std::string &filter, std::function<void(s
 	}
 }
 
-void bfc::masterThread::for_each(const std::vector<std::string> &filters, blc::tools::protocolFactory<int, std::string> &protoFact)
+void bfc::masterThread::for_each(const std::vector<std::string> &filters, blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>> &protoFact)
 {
 	for (auto filter : filters){
 		bfc::masterThread::for_each(filter, [&protoFact](std::map<std::string, blc::tools::pipe>::iterator it){
@@ -60,12 +60,12 @@ void bfc::masterThread::for_each(const std::vector<std::string> &filters, blc::t
 				int code = 0;
 				try {
 					code = std::stoi(it->second.read());
-				} catch (std::exception &e) {
+				} catch (std::invalid_argument &e) {
 					std::cerr << "error: stoi could not extract code" << blc::endl;
 				}
 				std::string data = it->second.read();
 
-				if (protoFact.activate(code, data) == 280){
+				if (protoFact.activate(code, std::make_pair(it, data)) == 280){
 					bfc::masterThread::remove(it->first);
 				}
 			}

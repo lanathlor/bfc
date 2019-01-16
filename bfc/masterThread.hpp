@@ -12,7 +12,7 @@ namespace bfc {
 
 		static void		kill();
 		static void		for_each(const std::string &filter, std::function<void(std::map<std::string, blc::tools::pipe>::iterator)> it);
-		static void		for_each(const std::vector<std::string> &filters, blc::tools::protocolFactory<int, std::string> &protoFact);
+		static void		for_each(const std::vector<std::string> &filters, blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>> &protoFact);
 		static int		count(const std::string &filter);
 		static int		size();
 		static void		add(const std::string &name, blc::tools::pipe master, blc::tools::pipe slave);
@@ -59,10 +59,10 @@ namespace bfc {
 		static int						counter;
 		static std::thread::id					id;
 
-		blc::tools::protocolFactory<int, std::string>	_adm;
-		blc::tools::protocolFactory<int, std::string>	_cin;
-		blc::tools::protocolFactory<int, std::string>	_serv;
-		blc::tools::protocolFactory<int, std::string>	_peer;
+		blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>>	_adm;
+		blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>>	_cin;
+		blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>>	_serv;
+		blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>>	_peer;
 
 
 		void readActor();

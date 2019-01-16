@@ -6,17 +6,17 @@
 
 void bfc::masterThread::peerProto()
 {
-	this->_peer.add(280, [](std::string str){
-		bfc::masterThread::remove(str);
+	this->_peer.add(280, [](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bfc::masterThread::remove(data.second);
 		return (0);
 	});
-	this->_peer.add(301, [](std::string str){
-		std::cout << str << std::endl;
+	this->_peer.add(301, [](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		std::cout << data.first->first << " says " << data.second << std::endl;
 		return (0);
 	});
-	this->_adm.add(302, [this](std::string str){
-		for (int i = str.find(';'); i != std::string::npos; i = str.find(';')){
-			std::string tmp = blc::tools::serializable::cut(str, ';');
+	this->_adm.add(302, [this](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		for (int i = data.second.find(';'); i != std::string::npos; i = data.second.find(';')){
+			std::string tmp = blc::tools::serializable::cut(data.second, ';');
 			if (std::find(this->_knownPeer.begin(), this->_knownPeer.end(), tmp) == this->_knownPeer.end() && tmp != bfc::masterThread::_myself){
 				int port = 0;
 				std::string addr = tmp.substr(0, tmp.find(':'));
@@ -40,21 +40,21 @@ void bfc::masterThread::peerProto()
 		}
 		return (0);
 	});
-	this->_adm.add(303, [this](std::string str){
+	this->_adm.add(303, [this](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
 		for (auto it = this->_knownPeer.begin(); it != this->_knownPeer.end(); it++){
-			if (*it == str){
+			if (*it == data.second){
 				this->_knownPeer.erase(it);
 			}
 		}
 		return (0);
 	});
-	this->_peer.add(350, [](std::string str){
-		bfc::cout << "username : " << str << blc::endl;
+	this->_peer.add(350, [](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bfc::cout << "username : " << data.second << blc::endl;
 
 		return (0);
 	});
-	this->_peer.add(352, [](std::string str){
-		bkc::connectedPeer::connect(str);
+	this->_peer.add(352, [](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bkc::connectedPeer::connect(data.second);
 
 		return (0);
 	});
