@@ -24,6 +24,10 @@ static void launch(std::string addr, int port)
 	else {
 		bfc::factory<bkc::node::admCon>("adm", addr, port);
 	}
+	if (bfc::flags::isSet("input")){
+		std::ifstream *i = new std::ifstream(bfc::flags::getValue("input"));
+		bfc::factory<bkc::node::cinCon>("cin", *i);
+	}
 	bfc::factory<bkc::node::cinCon>("cin");
 }
 

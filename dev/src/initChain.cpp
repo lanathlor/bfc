@@ -1,4 +1,5 @@
 #include "initChain.hpp"
+#include "getMyIp.hpp"
 
 static bool isYes(const std::string &str)
 {
@@ -36,27 +37,33 @@ static std::string outDefStr(const std::string &str)
 {
 	std::string tmp;
 
-	std::cout << str << ": " << bkc::def;
+	std::cout << "default [" << str << "] : " << bkc::def;
 	std::getline(std::cin, tmp);
 	if (tmp == "")
 		return (str);
 	return (tmp);
 }
 
-bool bkc::initChain()
+std::string bkc::initChain()
 {
-	std::cout << green << "create file ";
+	std::string chainName = bfc::flags::getValue("init");
+	if (chainName == "init"){
+		std::cout << red << "bad chain name : " << def << chainName << std::endl;
+		std::cout << green << "enter a valid chain name. ";
+		chainName = outDefStr("test");
+	}
+	std::cout << green << "enter name of configuration file. ";
 	std::string filename = outDefStr("./conf.bkc");
 	std::ofstream o(filename);
-	std::cout << green << "default ip is ";
-	std::string ip = outDefStr("127.0.0.1");
-	std::cout << green << "default port is ";
+	std::cout << green << "enter ip of admin host. " << def;
+	std::string ip = outDefStr(bkc::getMyIp());
+	std::cout << green << "enter port of admin host. ";
 	int port = std::stoi(outDefStr("5000"));
 
-	o << "{" << std::endl << "\t\"ip\": \"" << ip << "\"," << std::endl <<"\t\"port\": " << port << std::endl << "}";
+	o << "{" << std::endl << "\t\"name\" : \"" << chainName << "\"," << std::endl << "\t\"ip\": \"" << ip << "\"," << std::endl <<"\t\"port\": " << port << std::endl << "}";
 	if (bfc::flags::isSet("use")){
-		return (true);
+		return (filename);
 	}
 	bfc::exit();
-	return (false);
+	return ("");
 }

@@ -37,15 +37,7 @@ void bkc::node::peerCon::peerProto()
 		return (0);
 	});
 	this->_peerProto.add(401, [=](std::string str){
-		json 				j = json::parse(str);
-		const bkc::connectedPeer	&con = bkc::connectedPeer::init();
-		json				rep = {
-			{"code", 302},
-			{"data", con.serialize()},
-			{"user", "lanath"}
-		};
-
-		this->_client << rep.dump() << blc::endl << blc::endl;
+		this->send(401);
 		return (0);
 	});
 }
@@ -82,15 +74,7 @@ void bkc::node::servCon::peerProto()
 		return (0);
 	});
 	this->_peerProto.add(401, [=](std::string str){
-		json 				j = json::parse(str);
-		const bkc::connectedPeer	&con = bkc::connectedPeer::init();
-		json				rep = {
-			{"code", 302},
-			{"data", con.serialize()},
-			{"user", "lanath"}
-		};
-
-		this->_client << rep.dump() << blc::endl << blc::endl;
+		this->send(401);
 		return (0);
 	});
 }

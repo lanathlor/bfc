@@ -11,6 +11,7 @@
 #include "initChain.hpp"
 
 #include "rsaKey.hpp"
+#include "getMyIp.hpp"
 
 #include <stdio.h>
 #include <ios>
@@ -20,16 +21,32 @@ bkc::rsaKey	bkc::myLog;
 
 void bfc::initActor()
 {
+	bfc::usage.add({"--help"}, "show this helper");
+	bfc::usage.add({"--create"}, "create a pair of key. will erase already existing key");
+	bfc::usage.add({"--init=CHAIN_NAME"}, "create a init file for a new chain");
+	bfc::usage.add({"--use"}, "use the newly created key and/or configuration file to run");
+	bfc::usage.add({"--a"}, "run as admin of the chain");
+	bfc::usage.add({"--input=FILE"}, "read a file as the new stdin");
+	bfc::usage.add({"--pub=FILE"}, "select the public key file to read (or write if --create is use)");
+	bfc::usage.add({"--pri=FILE"}, "select the public key file to read (or write if --create is use)");
+
+	if (bfc::flags::isSet("help")){
+		std::cout << bfc::usage << std::endl;
+		bfc::exit();
+		return;
+	}
 	if (handleKey() == false)
 		return;
+	std::string file = "conf.bkc";
+
 	if (bfc::flags::isSet("init")){
-		if (!bkc::initChain())
+		if ((bkc::initChain() = file) == "")
 			return;
 	}
 	if (bfc::flags::isSet("conf")) {
 		readConfFile(bfc::flags::getValue("conf"));
 	} else {
-		readConfFile("conf.bkc");
+		readConfFile(file);
 	}
 }
 
@@ -37,15 +54,23 @@ int bfc::main()
 {
 
 	ltc_mp = ltm_desc;
+
+	std::string tmp = bkc::myLog.getPub();
+	std::string swap = bkc::myLog.printablePub();
+	bkc::myLog.importPub(swap);
+	std::cout << (tmp == bkc::myLog.getPub()) << std::endl;
 	try {
 		if (bfc::flags::isSet("a") == false) {
 			int port = blc::network::findFreePort();
 
-			bfc::masterThread::_myself = std::string("127.0.0.1:") + std::to_string(port);
+			bfc::masterThread::_myself = bkc::getMyIp() + ":" + std::to_string(port);
 			std::cout << port << std::endl;
+
+
 			bfc::masterThread::actor("adm").send(352, std::to_string(port));
 			bfc::masterThread::actor("adm").send(401);
 			bfc::masterThread::actor("adm").send(301, "ok");
+			bfc::masterThread::actor("adm").send(301, bkc::myLog.printablePub());
 			bfc::factory<bkc::node::peerServ>("server", 50, port);
 		}
 	} catch (blc::error::exception &e) {

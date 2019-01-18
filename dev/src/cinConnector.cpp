@@ -2,7 +2,7 @@
 #include "cinConnector.hpp"
 
 
-bkc::node::cinCon::cinCon(blc::tools::pipe &pipe, std::string name) : actor(pipe, name)
+bkc::node::cinCon::cinCon(blc::tools::pipe &pipe, std::string name, std::istream &input) : actor(pipe, name), _infd(input)
 {
 	this->masterProto();
 	this->cinProto();
@@ -23,7 +23,7 @@ void bkc::node::cinCon::readCin()
 	std::string command;
 	std::string arg;
 
-	std::getline(std::cin, command);
+	std::getline(this->_infd, command);
 	parseInput(command, arg);
 	if (this->_cin.activate(command, arg) == 280){
 		this->kill();
@@ -42,7 +42,7 @@ void bkc::node::cinCon::readMaster()
 void bkc::node::cinCon::thick()
 {
 	while (this->isAlive()){
-		if (blc::tools::cinReadable()){
+		if (blc::tools::readable(this->_infd)){
 			this->readCin();
 		} else if (this->_pipe.readable()) {
 			this->readMaster();

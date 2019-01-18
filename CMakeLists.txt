@@ -11,10 +11,11 @@ set(bfc_VERSION
 
 set (SRC
 	src/actorRep.cpp
+	src/bfcmain.cpp
 	src/exit.cpp
 	src/flag.cpp
 	src/masterThread.cpp
-	src/bfcmain.cpp
+	src/usage.cpp
 	)
 
 set (HEADER
@@ -26,6 +27,8 @@ set (HEADER
 	bfc/factory.hpp
 	bfc/flag.hpp
 	bfc/masterThread.hpp
+	bfc/outColor.hpp
+	bfc/usage.hpp
 	)
 
 set (GCC_COVERAGE_COMPILE_FLAGS "-g3 -std=c++17 -O2 -fno-stack-protector -DNDEBUG -Wall -fno-rtti -DUSE_LTM -DLTM_DESC -DMP_32BIT")

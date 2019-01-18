@@ -6,6 +6,7 @@
 #include "bfc/masterThread.hpp"
 #include "bfc/exit.hpp"
 #include "bfc/outColor.hpp"
+#include "bfc/usage.hpp"
 
 #include <tomcrypt.h>
 
@@ -14,6 +15,7 @@ int blc::main(int ac, std::vector<std::string> av, std::vector<std::string> env)
 	int ret = 0;
 	ltc_mp = ltm_desc;
 
+	bfc::usage.setProcessName(av[0]);
 	bfc::masterThread &master = bfc::masterThread::init();
 
 	if (bfc::_exit == true)

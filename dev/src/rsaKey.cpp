@@ -128,6 +128,48 @@ bool bkc::rsaKey::verify(const std::string &msg, const std::string &sign) const
 	return (true);
 }
 
+std::string bkc::rsaKey::printablePub() const
+{
+	std::string key = this->getPub();
+	std::string ret;
+
+	for (auto it : key)
+		ret += std::to_string((int)it) + " ";
+	return (ret);
+}
+
+std::string bkc::rsaKey::printablePriv() const
+{
+	std::string key = this->getPriv();
+	std::string ret;
+
+	for (auto it : key)
+		ret += std::to_string((int)it) + " ";
+	return (ret);
+}
+
+void bkc::rsaKey::importPub(std::string str)
+{
+	std::string key;
+	std::string tmp;
+
+	tmp = blc::tools::serializable::cut(str, ' ');
+	for(;tmp != ""; tmp = blc::tools::serializable::cut(str, ' '))
+		key += (char)std::stoi(tmp);
+	this->setPub(key);
+}
+
+void bkc::rsaKey::importPriv(std::string str)
+{
+	std::string key;
+	std::string tmp;
+
+	tmp = blc::tools::serializable::cut(str, ' ');
+	for(;tmp != ""; tmp = blc::tools::serializable::cut(str, ' '))
+		key += (char)std::stoi(tmp);
+	this->setPriv(key);
+}
+
 bkc::rsaKey bkc::rsaKey::open(const std::string &pubFile, const std::string &privFile)
 {
 	std::ifstream	file;

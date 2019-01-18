@@ -14,6 +14,7 @@ set (SRCS
 	src/cinConnector.cpp
 	src/confFile.cpp
 	src/connectedPeer.cpp
+	src/getMyIp.cpp
 	src/handleKeyParam.cpp
 	src/httpPost.cpp
 	src/initChain.cpp
@@ -45,6 +46,7 @@ set (HEADER
 	include/coInfo.hpp
 	include/confFile.hpp
 	include/connectedPeer.hpp
+	include/getMyIp.hpp
 	include/handleKeyParam.hpp
 	include/identity.hpp
 	include/initChain.hpp

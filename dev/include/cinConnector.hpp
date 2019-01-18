@@ -8,7 +8,7 @@ namespace bkc {
 		class cinCon : public bfc::actor<cinCon> {
 		public:
 			cinCon() = delete;
-			cinCon(blc::tools::pipe &pipe, std::string name);
+			cinCon(blc::tools::pipe &pipe, std::string name, std::istream &input = std::cin);
 
 			void masterProto();
 			void cinProto();
@@ -17,6 +17,7 @@ namespace bkc {
 			void readMaster();
 			void thick();
 		private:
+			std::istream						&_infd;
 			blc::tools::protocolFactory<std::string, std::string>	_cin;
 		};
 	}

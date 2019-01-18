@@ -58,4 +58,10 @@ void bfc::masterThread::peerProto()
 
 		return (0);
 	});
+	this->_peer.add(401, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		const bkc::connectedPeer	&con = bkc::connectedPeer::init();
+
+		data.first->second << "302" << blc::endl << con.serialize() << blc::endl;
+		return (0);
+	});
 }
