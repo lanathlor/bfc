@@ -12,7 +12,7 @@ void bkc::node::peerCon::masterProto()
 		json j = {
 			{"code", 280},
 			{"data", ""},
-			{"user", "bkc::myLog.getPub()"}
+			{"user", bkc::myLog.printablePub()}
 		};
 
 		this->_client << j.dump() << blc::endl << blc::endl;
@@ -24,7 +24,8 @@ void bkc::node::peerCon::masterProto()
 		json j = {
 			{"code", 301},
 			{"data", str},
-			{"user", "lanath"}
+			{"user", bkc::myLog.printablePub()},
+			{"sign", bkc::myLog.signPrintable(str)}
 		};
 
 		this->_client << j.dump() << blc::endl << blc::endl;
@@ -90,17 +91,8 @@ void bkc::node::servCon::masterProto()
 		json j = {
 			{"code", 301},
 			{"data", str},
-			{"user", "lanath"}
-		};
-
-		this->_client << j.dump() << blc::endl << blc::endl;
-		return (0);
-	});
-	this->_masterProto.add(302, [=](std::string str){
-		json j = {
-			{"code", 302},
-			{"data", str},
-			{"user", "lanath"}
+			{"user", bkc::myLog.printablePub()},
+			{"sign", bkc::myLog.signPrintable(str)}
 		};
 
 		this->_client << j.dump() << blc::endl << blc::endl;

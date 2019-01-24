@@ -1,5 +1,6 @@
 #include <nlohmann/json.hpp>
 #include "adminConnector.hpp"
+#include "rsaKey.hpp"
 
 using json = nlohmann::json;
 
@@ -19,8 +20,15 @@ void bkc::node::admCon::admProto()
 	});
 	this->_admProto.add(301, [=](std::string str){
 		json j = json::parse(str);
+		bkc::rsaKey key;
 
-		this->send(301, j["data"].get<std::string>());
+		try {
+			key.importPub(j["user"].get<std::string>());
+			if (key.verifyPrintable(j["data"].get<std::string>(), j["sign"].get<std::string>()))
+				this->send(301, j["data"].get<std::string>());
+		} catch (json::type_error &e) {
+			bfc::cout << this->getName() << ": data badly formated" << blc::endl;
+		}
 		return (0);
 	});
 	this->_admProto.add(302, [=](std::string str){

@@ -11,7 +11,6 @@ bkc::node::servCon::servCon(blc::tools::pipe pipe, std::string name, int sock, s
 	this->masterProto();
 
 	this->start();
-	this->_client << json({{"code", 301}, {"data", "ok"}}).dump() << blc::endl << blc::endl;
 }
 
 void bkc::node::servCon::readMaster()

@@ -27,7 +27,7 @@ namespace bfc {
 						tab = size / 8;
 					}
 				}
-				os << bfc::color::modifier(bfc::color::FG_GREEN) << "[USAGE:]\t" << bfc::color::modifier(bfc::color::FG_DEFAULT);
+				os << bfc::color::modifier(bfc::color::FG_GREEN) << "[USAGE]:\n\t\t" << bfc::color::modifier(bfc::color::FG_DEFAULT);
 				os << usage._procName << std::endl << std::endl;
 				for (auto comm : usage._comm){
 					int size = 0;

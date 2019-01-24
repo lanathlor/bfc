@@ -46,23 +46,29 @@ static std::string outDefStr(const std::string &str)
 
 std::string bkc::initChain()
 {
-	std::string chainName = bfc::flags::getValue("init");
-	if (chainName == "init"){
-		std::cout << red << "bad chain name : " << def << chainName << std::endl;
-		std::cout << green << "enter a valid chain name. ";
-		chainName = outDefStr("test");
-	}
-	std::cout << green << "enter name of configuration file. ";
-	std::string filename = outDefStr("./conf.bkc");
-	std::ofstream o(filename);
-	std::cout << green << "enter ip of admin host. " << def;
-	std::string ip = outDefStr(bkc::getMyIp());
-	std::cout << green << "enter port of admin host. ";
-	int port = std::stoi(outDefStr("5000"));
+	try {
+		std::string chainName = bfc::flags::getValue("init");
+		if (chainName == "init"){
+			std::cout << red << "bad chain name : " << def << chainName << std::endl;
+			std::cout << green << "enter a valid chain name. ";
+			chainName = outDefStr("test");
+		}
+		std::cout << green << "enter name of configuration file. ";
+		std::string filename = outDefStr("./conf.bkc");
+		std::cout << green << "level of administation on the chain : 1-4. ";
+		int adm = std::stoi(outDefStr("4"));
+		std::ofstream o(filename);
+		std::cout << green << "enter ip of admin host. " << def;
+		std::string ip = outDefStr(bkc::getMyIp());
+		std::cout << green << "enter port of admin host. ";
+		int port = std::stoi(outDefStr("5000"));
 
-	o << "{" << std::endl << "\t\"name\" : \"" << chainName << "\"," << std::endl << "\t\"ip\": \"" << ip << "\"," << std::endl <<"\t\"port\": " << port << std::endl << "}";
-	if (bfc::flags::isSet("use")){
-		return (filename);
+		o << "{" << std::endl << "\t\"name\" : \"" << chainName << "\"," << std::endl << "\t\"ip\": \"" << ip << "\"," << std::endl << "\t\"port\": " << port << "," << std::endl << "\t\"adm_lvl\": " << adm << std::endl << "}";
+		if (bfc::flags::isSet("use")){
+			return (filename);
+		}
+	} catch (std::invalid_argument &e) {
+		std::cerr << red << "bad number given" << std::endl;
 	}
 	bfc::exit();
 	return ("");

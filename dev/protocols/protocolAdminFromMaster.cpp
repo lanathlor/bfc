@@ -1,5 +1,6 @@
 #include <nlohmann/json.hpp>
 #include "adminConnector.hpp"
+#include "identity.hpp"
 
 using json = nlohmann::json;
 
@@ -21,7 +22,8 @@ void bkc::node::admCon::masterProto()
 		json j = {
 			{"code", 301},
 			{"data", str},
-			{"user", "lanath"}
+			{"user", bkc::myLog.printablePub()},
+			{"sign", bkc::myLog.signPrintable(str)}
 		};
 
 		this->_client << j.dump() << blc::endl << blc::endl;

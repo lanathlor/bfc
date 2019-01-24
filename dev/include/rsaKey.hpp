@@ -25,7 +25,9 @@ namespace bkc {
 		std::string	getPub() const {return(_pub);};
 		std::string	getPriv() const {return(_priv);};
 		std::string	sign(const std::string &msg) const;
+		std::string	signPrintable(const std::string &msg) const;
 		bool		verify(const std::string &msg, const std::string &sign) const;
+		bool		verifyPrintable(const std::string &msg, const std::string &sign) const;
 		std::string	printablePub() const;
 		std::string	printablePriv() const;
 		void		importPub(std::string str);

@@ -69,14 +69,14 @@ void bkc::rsaKey::setKey(rsa_key key)
 void bkc::rsaKey::setPub(const std::string &pub)
 {
 	this->_pub = pub;
-	int err = rsa_import((unsigned char *)pub.data(), pub.size(), &this->_key);
+	int err = rsa_import((unsigned char *)this->_pub.data(), this->_pub.size(), &this->_key);
 	if (err != CRYPT_OK) throw blc::error::exception(assertError("cant import pub key"));
 }
 
 void bkc::rsaKey::setPriv(const std::string &priv)
 {
 	this->_priv = priv;
-	int err = rsa_import((unsigned char *)priv.data(), priv.size(), &this->_key);
+	int err = rsa_import((unsigned char *)this->_priv.data(), this->_priv.size(), &this->_key);
 	if (err != CRYPT_OK) throw blc::error::exception(assertError("cant import private key"));
 }
 
@@ -106,6 +106,16 @@ std::string bkc::rsaKey::sign(const std::string &msg) const
 	return (std::string(sig, sig + siglen));
 }
 
+std::string bkc::rsaKey::signPrintable(const std::string &msg) const
+{
+	std::string tmp = this->sign(msg);
+	std::string ret;
+
+	for (auto it : tmp)
+		ret += std::to_string((int)it) + " ";
+	return (ret);
+}
+
 bool bkc::rsaKey::verify(const std::string &msg, const std::string &sign) const
 {
 	const ltc_hash_descriptor& hash_desc = sha512_desc;
@@ -126,6 +136,22 @@ bool bkc::rsaKey::verify(const std::string &msg, const std::string &sign) const
 	if (!stat) return false;
 
 	return (true);
+}
+
+bool bkc::rsaKey::verifyPrintable(const std::string &msg, const std::string &sign) const
+{
+	std::string data;
+	std::string tmp;
+	std::string str = sign;
+
+	tmp = blc::tools::serializable::cut(str, ' ');
+	try {
+		for(;tmp != ""; tmp = blc::tools::serializable::cut(str, ' '))
+			data += (char)std::stoi(tmp);
+	} catch (std::invalid_argument &e) {
+		throw blc::error::exception(assertError(e.what()));
+	}
+	return (this->verify(msg, data));
 }
 
 std::string bkc::rsaKey::printablePub() const
@@ -154,8 +180,12 @@ void bkc::rsaKey::importPub(std::string str)
 	std::string tmp;
 
 	tmp = blc::tools::serializable::cut(str, ' ');
-	for(;tmp != ""; tmp = blc::tools::serializable::cut(str, ' '))
-		key += (char)std::stoi(tmp);
+	try {
+		for(;tmp != ""; tmp = blc::tools::serializable::cut(str, ' '))
+			key += (char)std::stoi(tmp);
+	} catch (std::invalid_argument &e) {
+		throw blc::error::exception(assertError(e.what()));
+	}
 	this->setPub(key);
 }
 
@@ -165,8 +195,12 @@ void bkc::rsaKey::importPriv(std::string str)
 	std::string tmp;
 
 	tmp = blc::tools::serializable::cut(str, ' ');
-	for(;tmp != ""; tmp = blc::tools::serializable::cut(str, ' '))
-		key += (char)std::stoi(tmp);
+	try {
+		for(;tmp != ""; tmp = blc::tools::serializable::cut(str, ' '))
+			key += (char)std::stoi(tmp);
+	} catch (std::invalid_argument &e) {
+		throw blc::error::exception(assertError(e.what()));
+	}
 	this->setPriv(key);
 }
 
