@@ -11,6 +11,8 @@ find_package(nlohmann_json 3.2.0 REQUIRED)
 
 set (SRCS
 	src/adminConnector.cpp
+	src/book.cpp
+	src/chain.cpp
 	src/cinConnector.cpp
 	src/confFile.cpp
 	src/connectedPeer.cpp
@@ -23,6 +25,7 @@ set (SRCS
 	src/peerServer.cpp
 	src/rsaKey.cpp
 	src/servConnector.cpp
+	src/trans.cpp
 	)
 
 set (PROTOS
@@ -41,6 +44,8 @@ set (PROTOS
 
 set (HEADER
 	include/adminConnector.hpp
+	include/book.hpp
+	include/chain.hpp
 	include/chainInfo.hpp
 	include/cinConnector.hpp
 	include/coInfo.hpp
@@ -56,6 +61,7 @@ set (HEADER
 	include/peerServer.hpp
 	include/rsaKey.hpp
 	include/servConnector.hpp
+	include/trans.hpp
 	)
 
 add_library(devobj STATIC ${SRCS} ${HEADER} ${PROTOS})

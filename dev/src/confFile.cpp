@@ -8,6 +8,7 @@
 
 #include "handleKeyParam.hpp"
 #include "confFile.hpp"
+#include "identity.hpp"
 
 #include "rsaKey.hpp"
 

@@ -1,5 +1,6 @@
 #include "initChain.hpp"
 #include "getMyIp.hpp"
+#include "identity.hpp"
 
 static bool isYes(const std::string &str)
 {
@@ -50,20 +51,28 @@ std::string bkc::initChain()
 		std::string chainName = bfc::flags::getValue("init");
 		if (chainName == "init"){
 			std::cout << red << "bad chain name : " << def << chainName << std::endl;
-			std::cout << green << "enter a valid chain name. ";
+			std::cout << green << "enter a valid chain name. " << def;
 			chainName = outDefStr("test");
 		}
-		std::cout << green << "enter name of configuration file. ";
+		std::cout << green << "enter name of configuration file. " << def;
 		std::string filename = outDefStr("./conf.bkc");
-		std::cout << green << "level of administation on the chain : 1-4. ";
+		std::cout << green << "level of administation on the chain : 1-4. " << def;
 		int adm = std::stoi(outDefStr("4"));
 		std::ofstream o(filename);
 		std::cout << green << "enter ip of admin host. " << def;
 		std::string ip = outDefStr(bkc::getMyIp());
-		std::cout << green << "enter port of admin host. ";
+		std::cout << green << "enter port of admin host. " << def;
 		int port = std::stoi(outDefStr("5000"));
+		std::cout << green << "use the current key as creator & admin ? " << def;
+		bool keyOk = outDef(true);
 
-		o << "{" << std::endl << "\t\"name\" : \"" << chainName << "\"," << std::endl << "\t\"ip\": \"" << ip << "\"," << std::endl << "\t\"port\": " << port << "," << std::endl << "\t\"adm_lvl\": " << adm << std::endl << "}";
+		o << "{" << std::endl;
+		o << "\t\"name\" : \"" << chainName << "\"," << std::endl;
+		o << "\t\"ip\": \"" << ip << "\"," << std::endl;
+		o << "\t\"port\": " << port << "," << std::endl;
+		o << "\t\"adm_lvl\": " << adm << "," << std::endl;
+		o << "\t\"adm_key\": \"" << bkc::myLog.printablePub() << "\"" << std::endl;
+		o << "}";
 		if (bfc::flags::isSet("use")){
 			return (filename);
 		}
