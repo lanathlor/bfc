@@ -55,7 +55,8 @@ target_link_libraries(test PRIVATE devobj)
 target_link_libraries(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtomcrypt.a)
 target_link_libraries(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtommath.a)
 target_include_directories(test PRIVATE .)
-target_include_directories(test PRIVATE dep/libtomcrypt/src/headers)
+target_include_directories(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtomcrypt/src/headers)
+target_include_directories(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtommath)
 
 
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})

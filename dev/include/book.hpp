@@ -4,7 +4,7 @@
 #include "trans.hpp"
 
 namespace bkc {
-	class book : bkc::tools::serializable {
+	class book : blc::tools::serializable {
 	public:
 		book();
 		book(std::string filename);

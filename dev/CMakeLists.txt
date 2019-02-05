@@ -68,6 +68,8 @@ add_library(devobj STATIC ${SRCS} ${HEADER} ${PROTOS})
 
 target_include_directories(devobj PRIVATE ./include)
 target_include_directories(devobj PRIVATE ../)
+target_include_directories(devobj PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtomcrypt/src/headers)
+target_include_directories(devobj PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtommath)
 target_link_libraries(devobj PRIVATE Threads::Threads)
 target_link_libraries(devobj PRIVATE blc)
 
