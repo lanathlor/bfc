@@ -9,7 +9,7 @@ using json = nlohmann::json;
 namespace bkc {
 	class trans : public blc::tools::serializable {
 	public:
-		trans() = delete;
+		trans() = default;
 		trans(std::string str);
 		trans(const json &j);
 		trans(const trans &other) = default;

@@ -73,7 +73,6 @@ int bfc::main()
 	} catch (blc::error::exception &e) {
 		std::cerr << e.what() << std::endl;
 	}
-	bfc::exit();
 	return (0);
 }
 

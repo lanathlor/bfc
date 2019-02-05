@@ -47,7 +47,7 @@ bool bkc::connectedPeer::connect(const std::string &str)
 
 bool bkc::connectedPeer::connect(const std::string &str, int port)
 {
-	bkc::connectedPeer::connect(str + std::to_string(port));
+	return (bkc::connectedPeer::connect(str + std::to_string(port)));
 }
 
 void bkc::connectedPeer::erase(const std::string &str)

@@ -68,7 +68,6 @@ void bkc::node::servCon::peerProto()
 		} catch (json::type_error &e) {
 			bfc::cout << this->getName() << ": data badly formated" << blc::endl;
 		}
-		this->send(301, j["data"].get<std::string>());
 		return (0);
 	});
 	this->_peerProto.add(302, [=](std::string str){

@@ -13,18 +13,21 @@ namespace bkc {
 		void	add(const bkc::trans &t);
 		void	remove(const bkc::trans &t);
 		bool	find(const bkc::trans &t);
+		void	clear();
 
 		std::vector<bkc::trans>	getBySender(const std::string &key);
 		std::vector<bkc::trans>	getByReceiver(const std::string &key);
-		std::vector<bkc::trans>	getBySign(const std::string &key);
+		bkc::trans		getBySign(const std::string &key);
 		std::vector<bkc::trans>	getByProof(const std::string &key);
-		std::vector<bkc::trans>	getByAmount(int time);
-		std::vector<bkc::trans>	getByTime(double amount);
+		std::vector<bkc::trans>	getByAmount(double amount);
+		std::vector<bkc::trans>	getByTime(int time);
 
 		std::string 	serialize() const;
 		void		unserialize(const std::string &str);
+		void		load(std::istream &stream);
+		void		dump(std::ostream &stream);
 
-		book operator=(const book &other);
+		book		&operator=(const book &other);
 	private:
 		std::map<std::string, std::vector<bkc::trans *>> _bySender;
 		std::map<std::string, std::vector<bkc::trans *>> _byReceiver;

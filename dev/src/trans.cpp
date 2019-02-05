@@ -148,6 +148,8 @@ bkc::trans &bkc::trans::operator=(const trans &other)
 
 bool bkc::trans::operator==(const trans &other)
 {
+	if (this->_sign != other.getSign())
+		return false;
 	if (this->_timestamp != other.getTimestamp())
 		return false;
 	if (this->_amount != other.getAmount())
@@ -155,8 +157,6 @@ bool bkc::trans::operator==(const trans &other)
 	if (this->_receiver != other.getReceiver())
 		return false;
 	if (this->_sender != other.getSender())
-		return false;
-	if (this->_sign != other.getSign())
 		return false;
 	return true;
 }
