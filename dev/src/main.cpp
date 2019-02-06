@@ -23,12 +23,16 @@ bkc::rsaKey	bkc::myLog;
 
 void bfc::initActor()
 {
+	ltc_mp = ltm_desc;
+
 	bfc::usage.add({"--help"}, "show this helper");
 	bfc::usage.add({"--create"}, "create a pair of key. will erase already existing key");
 	bfc::usage.add({"--init=CHAIN_NAME"}, "create a init file for a new chain");
 	bfc::usage.add({"--use"}, "use the newly created key and/or configuration file to run");
 	bfc::usage.add({"--a"}, "run as admin of the chain");
 	bfc::usage.add({"--input=FILE"}, "read a file as the new stdin");
+	bfc::usage.add({"--output_chain=FILE"}, "file to dump the chain state, default is ./dump.dc");
+	bfc::usage.add({"--input_chain=FILE"}, "file to get the chain state, default is ./dump.dc");
 	bfc::usage.add({"--pub=FILE"}, "select the public key file to read (or write if --create is used)");
 	bfc::usage.add({"--pri=FILE"}, "select the public key file to read (or write if --create is used)");
 
@@ -41,6 +45,16 @@ void bfc::initActor()
 		return;
 	std::string file = "conf.bkc";
 
+	if (bfc::flags::isSet("output_chain")){
+		bfc::output.open(bfc::flags::getValue("output_chain"));
+	} else {
+		bfc::output.open("./dump.dc");
+	}
+	if (bfc::flags::isSet("input_chain")){
+		bfc::input.open(bfc::flags::getValue("input_chain"));
+	} else {
+		bfc::input.open("./dump.dc");
+	}
 	if (bfc::flags::isSet("init")){
 		if ((bkc::initChain() = file) == "")
 			return;
@@ -54,9 +68,6 @@ void bfc::initActor()
 
 int bfc::main()
 {
-
-	ltc_mp = ltm_desc;
-
 	try {
 		if (bfc::flags::isSet("a") == false) {
 			int port = blc::network::findFreePort();

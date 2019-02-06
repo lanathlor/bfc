@@ -9,3 +9,4 @@
 #include "bfc/exit.hpp"
 #include "bfc/outColor.hpp"
 #include "bfc/usage.hpp"
+#include "bfc/globals.hpp"

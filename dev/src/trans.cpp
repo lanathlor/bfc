@@ -98,6 +98,18 @@ void bkc::trans::unserialize(const std::string &str)
 	}
 }
 
+json bkc::trans::jsonify() const
+{
+	json j;
+
+	j["sender"] = this->_sender;
+	j["receiver"] = this->_receiver;
+	j["amount"] = this->_amount;
+	j["timestamp"] = this->_timestamp;
+	j["sign"] = this->_sign;
+
+	return (j);
+}
 
 int bkc::trans::getTimestamp() const
 {

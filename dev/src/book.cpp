@@ -72,64 +72,64 @@ void bkc::book::clear()
 }
 
 
-std::vector<bkc::trans> bkc::book::getBySender(const std::string &key)
+std::vector<bkc::trans> bkc::book::getBySender(const std::string &key) const
 {
 	std::vector<bkc::trans> v;
 	if (this->_bySender.count(key) == 0)
 		return (std::vector<bkc::trans>({}));
-	for (auto it : this->_bySender[key]){
+	for (auto it : this->_bySender.at(key)){
 		v.push_back(*it);
 	}
 	return (v);
 }
 
-std::vector<bkc::trans> bkc::book::getByReceiver(const std::string &key)
+std::vector<bkc::trans> bkc::book::getByReceiver(const std::string &key) const
 {
 	std::vector<bkc::trans> v;
 	if (this->_byReceiver.count(key) == 0)
 		return (std::vector<bkc::trans>({}));
-	for (auto it : this->_byReceiver[key]){
+	for (auto it : this->_byReceiver.at(key)){
 		v.push_back(*it);
 	}
 	return (v);
 }
 
-bkc::trans bkc::book::getBySign(const std::string &key)
+bkc::trans bkc::book::getBySign(const std::string &key) const
 {
 	bkc::trans t;
 	if (this->_bySign.count(key) == 0)
 		return (t);
-	return (this->_bySign[key]);
+	return (this->_bySign.at(key));
 }
 
-std::vector<bkc::trans> bkc::book::getByProof(const std::string &key)
+std::vector<bkc::trans> bkc::book::getByProof(const std::string &key) const
 {
 	std::vector<bkc::trans> v;
 	if (this->_byProof.count(key) == 0)
 		return (std::vector<bkc::trans>({}));
-	for (auto it : this->_byProof[key]){
+	for (auto it : this->_byProof.at(key)){
 		v.push_back(*it);
 	}
 	return (v);
 }
 
-std::vector<bkc::trans> bkc::book::getByAmount(double amount)
+std::vector<bkc::trans> bkc::book::getByAmount(double amount) const
 {
 	std::vector<bkc::trans> v;
 	if (this->_byAmount.count(amount) == 0)
 		return (std::vector<bkc::trans>({}));
-	for (auto it : this->_byAmount[amount]){
+	for (auto it : this->_byAmount.at(amount)){
 		v.push_back(*it);
 	}
 	return (v);
 }
 
-std::vector<bkc::trans> bkc::book::getByTime(int time)
+std::vector<bkc::trans> bkc::book::getByTime(int time) const
 {
 	std::vector<bkc::trans> v;
 	if (this->_byTime.count(time) == 0)
 		return (std::vector<bkc::trans>({}));
-	for (auto it : this->_byTime[time]){
+	for (auto it : this->_byTime.at(time)){
 		v.push_back(*it);
 	}
 	return (v);

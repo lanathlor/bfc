@@ -21,6 +21,7 @@ namespace bkc {
 
 		std::string	serialize() const;
 		void		unserialize(const std::string &str);
+		json		jsonify() const;
 
 		int		getTimestamp() const;
 		double		getAmount() const;

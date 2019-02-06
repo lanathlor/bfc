@@ -15,12 +15,12 @@ namespace bkc {
 		bool	find(const bkc::trans &t);
 		void	clear();
 
-		std::vector<bkc::trans>	getBySender(const std::string &key);
-		std::vector<bkc::trans>	getByReceiver(const std::string &key);
-		bkc::trans		getBySign(const std::string &key);
-		std::vector<bkc::trans>	getByProof(const std::string &key);
-		std::vector<bkc::trans>	getByAmount(double amount);
-		std::vector<bkc::trans>	getByTime(int time);
+		std::vector<bkc::trans>	getBySender(const std::string &key) const;
+		std::vector<bkc::trans>	getByReceiver(const std::string &key) const;
+		bkc::trans		getBySign(const std::string &key) const;
+		std::vector<bkc::trans>	getByProof(const std::string &key) const;
+		std::vector<bkc::trans>	getByAmount(double amount) const;
+		std::vector<bkc::trans>	getByTime(int time) const;
 
 		std::string 	serialize() const;
 		void		unserialize(const std::string &str);
