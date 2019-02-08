@@ -14,7 +14,7 @@ void bfc::masterThread::peerProto()
 		std::cout << data.first->first << " says " << data.second << std::endl;
 		return (0);
 	});
-	this->_adm.add(302, [this](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+	this->_peer.add(302, [this](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
 		for (int i = data.second.find(';'); i != std::string::npos; i = data.second.find(';')){
 			std::string tmp = blc::tools::serializable::cut(data.second, ';');
 			if (std::find(this->_knownPeer.begin(), this->_knownPeer.end(), tmp) == this->_knownPeer.end() && tmp != bfc::masterThread::_myself){
@@ -40,12 +40,16 @@ void bfc::masterThread::peerProto()
 		}
 		return (0);
 	});
-	this->_adm.add(303, [this](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+	this->_peer.add(303, [this](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
 		for (auto it = this->_knownPeer.begin(); it != this->_knownPeer.end(); it++){
 			if (*it == data.second){
 				this->_knownPeer.erase(it);
 			}
 		}
+		return (0);
+	});
+	this->_peer.add(305, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bfc::masterThread::actor("chain").send(305, data.second);
 		return (0);
 	});
 	this->_peer.add(350, [](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){

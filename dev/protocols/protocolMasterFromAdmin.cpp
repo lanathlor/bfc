@@ -52,4 +52,8 @@ void bfc::masterThread::adminProto()
 		}
 		return (0);
 	});
+	this->_adm.add(305, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bfc::masterThread::actor("chain").send(305, data.second);
+		return (0);
+	});
 }

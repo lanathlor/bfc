@@ -1,8 +1,13 @@
 #include "chain.hpp"
+#include "identity.hpp"
 
-bkc::chain::chain(blc::tools::pipe &pipe, std::string name, bkc::rsaKey key, unsigned char admLvl) : actor(pipe, name)
+bkc::chain::chain(blc::tools::pipe &pipe, std::string name, bkc::rsaKey key, unsigned char admLvl, std::string in, std::string out) : actor(pipe, name), _in(in), _out(out)
 {
+	this->masterProto();
+
+	std::cout << "ok" << std::endl;
 	this->load();
+	this->start();
 }
 
 std::string bkc::chain::serialize() const
@@ -15,37 +20,50 @@ void bkc::chain::unserialize(const std::string &str)
 	this->_book.unserialize(str);
 }
 
-void bkc::chain::getBalance(std::string key) const
+double bkc::chain::getBalance(std::string key) const
 {
+	return (0);
 }
 
-bkc::trans bkc::chain::searchProof(const bkc::trans &t) const
+std::string bkc::chain::searchProof(const bkc::trans &t) const
 {
 	std::vector<bkc::trans> v = this->_book.getBySender(t.getSender());
 
 	for (auto it : v){
 		if (it.getAmount() >= t.getAmount())
-			return (it);
+			return (it.getSign());
 	}
-	return (bkc::trans());
+	return ("");
+}
+
+bkc::trans bkc::chain::consum(const std::string &sign)
+{
+	bkc::trans 		proof(this->_book.getBySign(sign));
+	std::vector<bkc::trans>	tmp(this->_book.getByProof(sign));
+	double			already_spent = 0;
+
+	for (auto it : tmp){
+		already_spent += it.getAmount();
+	}
+	bkc::trans t = bkc::trans::createTrans(proof.getSender(), proof.getSender(), proof.getAmount() - already_spent, bkc::myLog);
+	this->add(t);
+	return (t);
 }
 
 bool bkc::chain::verify(const bkc::trans &t)
 {
 	if (t.check() == false)
 		return (false);
-	if (this->_book.find(t) == false)
+	if (this->_book.exist(t.getProof()) == false)
+		return (false);
+	if (this->_book.consumed(t.getProof()) == true)
 		return (false);
 	return (true);
 }
 
 void bkc::chain::add(const bkc::trans &t)
 {
-	if (this->verify(t)){
-		this->_book.add(t);
-		bkc::trans tmp = t.getLeftOver();
-		this->_book.add(tmp);
-	}
+	this->_book.add(t);
 }
 
 void bkc::chain::remove(const bkc::trans &t)
@@ -53,16 +71,22 @@ void bkc::chain::remove(const bkc::trans &t)
 	this->_book.remove(t);
 }
 
-void bkc::chain::dump()
+void bkc::chain::dump() const
 {
-	this->_book.dump(bfc::output);
-	bfc::output.seekp(0);
+	std::ofstream os;
+
+	os.open(this->_out);
+	this->_book.dump(os);
+	os.close();
 }
 
 void bkc::chain::load()
 {
-	bfc::input.seekg(0);
-	this->_book.load(bfc::input);
+	std::ifstream is;
+
+	is.open(this->_in);
+	this->_book.load(is);
+	is.close();
 }
 
 void bkc::chain::readMaster()

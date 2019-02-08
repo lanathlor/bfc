@@ -32,6 +32,12 @@ void bkc::node::peerCon::peerProto()
 		this->send(302, j["data"].get<std::string>());
 		return (0);
 	});
+	this->_peerProto.add(305, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(305, j["data"].get<std::string>());
+		return (0);
+	});
 	this->_peerProto.add(350, [=](std::string str){
 		json j = json::parse(str);
 
@@ -74,6 +80,12 @@ void bkc::node::servCon::peerProto()
 		json j = json::parse(str);
 
 		this->send(302, j["data"].get<std::string>());
+		return (0);
+	});
+	this->_peerProto.add(305, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(305, j["data"].get<std::string>());
 		return (0);
 	});
 	this->_peerProto.add(350, [=](std::string str){

@@ -11,7 +11,6 @@ bkc::book::book(std::string filename)
 	stream.open(filename);
 	this->load(stream);
 	stream.close();
-
 }
 
 bkc::book::book(const bkc::book &other)
@@ -69,6 +68,27 @@ void bkc::book::clear()
 	this->_byProof.clear();
 	this->_byAmount.clear();
 	this->_byTime.clear();
+}
+
+bool bkc::book::exist(const std::string &sign)
+{
+	if (this->_bySign.count(sign) == 0)
+		return (false);
+	return (true);
+}
+
+bool bkc::book::consumed(const std::string &sign)
+{
+	bkc::trans 		proof(this->getBySign(sign));
+	std::vector<bkc::trans>	tmp(this->getByProof(sign));
+	double			already_spent = 0;
+
+	for (auto it : tmp){
+		already_spent += it.getAmount();
+	}
+	if (already_spent >= proof.getAmount())
+		return (true);
+	return (false);
 }
 
 
@@ -171,11 +191,10 @@ void bkc::book::load(std::istream &stream)
 	}
 }
 
-void bkc::book::dump(std::ostream &stream)
+void bkc::book::dump(std::ostream &stream) const
 {
 	for (auto it : this->_bySign){
-		stream << it.second.serialize();
-		stream << std::endl;
+		stream << it.second.serialize() << std::endl;
 	}
 }
 

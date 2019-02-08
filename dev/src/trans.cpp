@@ -3,19 +3,21 @@
 
 bkc::trans::trans(std::string str)
 {
-	json j = json::parse(str);
+	if (str != ""){
+		json j = json::parse(str);
 
-	try {
-		this->_sender = j["sender"];
-		this->_receiver = j["receiver"];
-		this->_amount = j["amount"];
-		this->_timestamp = j["timestamp"];
-		this->_sign = j["sign"];
-	} catch (blc::error::exception &e){
-		throw blc::error::exception(assertError(e.what()));
+		try {
+			this->_sender = j["sender"];
+			this->_receiver = j["receiver"];
+			this->_amount = j["amount"];
+			this->_timestamp = j["timestamp"];
+			this->_sign = j["sign"];
+		} catch (blc::error::exception &e){
+			throw blc::error::exception(assertError(e.what()));
+		}
+		if (j.count("proof"))
+			this->_proof = j["proof"];
 	}
-	if (j.count("proof"))
-		this->_proof = j["proof"];
 }
 
 bkc::trans::trans(const json &j)
@@ -54,16 +56,6 @@ double bkc::trans::leftOver() const
 	return (t.getAmount() - this->_amount);
 }
 
-bkc::trans bkc::trans::getLeftOver() const
-{
-	bkc::trans t(this->_proof);
-
-	t._amount = t.getAmount() - this->_amount;
-	t._timestamp = std::time(nullptr);
-	t._receiver = this->_sender;
-	return (t);
-}
-
 bool bkc::trans::toSelf() const
 {
 	return (this->_sender == this->_receiver);
@@ -78,6 +70,7 @@ std::string bkc::trans::serialize() const
 	j["amount"] = this->_amount;
 	j["timestamp"] = this->_timestamp;
 	j["sign"] = this->_sign;
+	j["proof"] = this->_proof;
 
 	return (j.dump());
 }
@@ -91,9 +84,11 @@ void bkc::trans::unserialize(const std::string &str)
 		this->_amount = j["amount"];
 		this->_timestamp = j["timestamp"];
 		this->_sign = j["sign"];
-		if (j["proof"])
+		if (j.count("proof"))
 			this->_proof = j["proof"];
 	} catch (blc::error::exception &e){
+		throw blc::error::exception(assertError(e.what()));
+	} catch (nlohmann::detail::parse_error &e){
 		throw blc::error::exception(assertError(e.what()));
 	}
 }

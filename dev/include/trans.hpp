@@ -16,7 +16,6 @@ namespace bkc {
 
 		bool		check() const;
 		double		leftOver() const;
-		trans		getLeftOver() const;
 		bool 		toSelf() const;
 
 		std::string	serialize() const;

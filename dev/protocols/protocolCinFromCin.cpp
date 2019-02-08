@@ -25,4 +25,8 @@ void bkc::node::cinCon::cinProto()
 			// this->_pipe << "420" << blc::endl << blc::endl;
 		return (0);
 	});
+	this->_cin.add("send", [=](std::string str){
+		this->send(305, str);
+		return (0);
+	});
 }

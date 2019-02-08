@@ -31,9 +31,11 @@ set (SRCS
 set (PROTOS
 	protocols/protocolAdminFromAdmin.cpp
 	protocols/protocolAdminFromMaster.cpp
+	protocols/protocolChainFromMaster.cpp
 	protocols/protocolCinFromCin.cpp
 	protocols/protocolCinFromMaster.cpp
 	protocols/protocolMasterFromAdmin.cpp
+	protocols/protocolMasterFromChain.cpp
 	protocols/protocolMasterFromCin.cpp
 	protocols/protocolMasterFromPeer.cpp
 	protocols/protocolMasterFromServer.cpp

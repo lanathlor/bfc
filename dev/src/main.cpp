@@ -14,6 +14,7 @@
 #include "getMyIp.hpp"
 
 #include "trans.hpp"
+#include "chain.hpp"
 
 #include <stdio.h>
 #include <ios>
@@ -45,16 +46,12 @@ void bfc::initActor()
 		return;
 	std::string file = "conf.bkc";
 
-	if (bfc::flags::isSet("output_chain")){
-		bfc::output.open(bfc::flags::getValue("output_chain"));
-	} else {
-		bfc::output.open("./dump.dc");
-	}
-	if (bfc::flags::isSet("input_chain")){
-		bfc::input.open(bfc::flags::getValue("input_chain"));
-	} else {
-		bfc::input.open("./dump.dc");
-	}
+	std::string in = "./dump.dc";
+	std::string out = "./dump.dc";
+	if (bfc::flags::isSet("output_chain"))
+		out = bfc::flags::getValue("output_chain");
+	if (bfc::flags::isSet("input_chain"))
+		in = bfc::flags::getValue("input_chain");
 	if (bfc::flags::isSet("init")){
 		if ((bkc::initChain() = file) == "")
 			return;
@@ -64,6 +61,7 @@ void bfc::initActor()
 	} else {
 		readConfFile(file);
 	}
+	bfc::factory<bkc::chain>("chain", bkc::myLog, 4, in, out);
 }
 
 int bfc::main()

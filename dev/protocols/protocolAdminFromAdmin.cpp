@@ -37,6 +37,12 @@ void bkc::node::admCon::admProto()
 		this->send(302, j["data"].get<std::string>());
 		return (0);
 	});
+	this->_admProto.add(305, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(305, j["data"].get<std::string>());
+		return (0);
+	});
 	this->_admProto.add(350, [=](std::string str){
 		json j = json::parse(str);
 
