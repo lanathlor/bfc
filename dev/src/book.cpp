@@ -77,7 +77,7 @@ bool bkc::book::exist(const std::string &sign)
 	return (true);
 }
 
-bool bkc::book::consumed(const std::string &sign)
+bool bkc::book::consumed(const std::string &sign) const
 {
 	bkc::trans 		proof(this->getBySign(sign));
 	std::vector<bkc::trans>	tmp(this->getByProof(sign));

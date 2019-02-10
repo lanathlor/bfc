@@ -45,6 +45,8 @@ bool bkc::trans::check() const
 		{"timestamp", this->_timestamp}
 	});
 
+	if (this->_amount < 0)
+		return (false);
 	key.importPub(this->_sender);
 	return (key.verifyPrintable(j.dump(), this->_sign));
 }
@@ -104,6 +106,18 @@ json bkc::trans::jsonify() const
 	j["sign"] = this->_sign;
 
 	return (j);
+}
+
+std::string bkc::trans::debug() const
+{
+	json j;
+
+	j["sender"] = this->_sender;
+	j["receiver"] = this->_receiver;
+	j["amount"] = this->_amount;
+	j["timestamp"] = this->_timestamp;
+
+	return (j.dump());
 }
 
 int bkc::trans::getTimestamp() const

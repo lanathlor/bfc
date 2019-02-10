@@ -6,6 +6,7 @@ namespace bfc {
 	class actorRep : public blc::tools::nonCopyable {
 	public:
 		actorRep(blc::tools::pipe pipe, std::string name);
+		virtual ~actorRep() = default;
 
 		void		kill();
 		bool		isAlive() const;

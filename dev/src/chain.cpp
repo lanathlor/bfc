@@ -1,10 +1,11 @@
 #include "chain.hpp"
 #include "identity.hpp"
 
-bkc::chain::chain(blc::tools::pipe &pipe, std::string name, bkc::rsaKey key, unsigned char admLvl, std::string in, std::string out) : actor(pipe, name), _in(in), _out(out)
+bkc::chain::chain(blc::tools::pipe &pipe, std::string name, bkc::rsaKey key, unsigned char admLvl, std::string in, std::string out) : actor(pipe, name), _admKey(key), _admLvl(admLvl), _in(in), _out(out)
 {
 	this->masterProto();
 
+	this->_admKeyStr = this->_admKey.printablePub();
 	std::cout << "ok" << std::endl;
 	this->load();
 	this->start();
@@ -30,10 +31,20 @@ std::string bkc::chain::searchProof(const bkc::trans &t) const
 	std::vector<bkc::trans> v = this->_book.getBySender(t.getSender());
 
 	for (auto it : v){
-		if (it.getAmount() >= t.getAmount())
+		if (it.getAmount() >= t.getAmount() && this->_book.consumed(it.getSign()) == false)
 			return (it.getSign());
 	}
 	return ("");
+}
+
+bkc::trans bkc::chain::getLeftOver(const bkc::trans &t) const
+{
+	bkc::trans 		proof(this->_book.getBySign(t.getProof()));
+	double			already_spent = 0;
+
+	double tmp = proof.getAmount() - t.getAmount();
+	bkc::trans parity = bkc::trans::createTrans(proof.getSender(), proof.getSender(), round(tmp * 1000.0) / 1000.0, bkc::myLog);
+	return (parity);
 }
 
 bkc::trans bkc::chain::consum(const std::string &sign)
@@ -56,9 +67,16 @@ bool bkc::chain::verify(const bkc::trans &t)
 		return (false);
 	if (this->_book.exist(t.getProof()) == false)
 		return (false);
-	if (this->_book.consumed(t.getProof()) == true)
+	if (this->_book.consumed(t.getProof()) == true && t.getAmount() != 0)
 		return (false);
 	return (true);
+}
+
+double bkc::chain::leftOver(const bkc::trans &t, const bkc::trans &parity)
+{
+	bkc::trans proof = this->_book.getBySign(t.getProof());
+
+	return (proof.getAmount() - (t.getAmount() + parity.getAmount()));
 }
 
 void bkc::chain::add(const bkc::trans &t)

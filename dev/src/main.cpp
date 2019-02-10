@@ -45,13 +45,6 @@ void bfc::initActor()
 	if (handleKey() == false)
 		return;
 	std::string file = "conf.bkc";
-
-	std::string in = "./dump.dc";
-	std::string out = "./dump.dc";
-	if (bfc::flags::isSet("output_chain"))
-		out = bfc::flags::getValue("output_chain");
-	if (bfc::flags::isSet("input_chain"))
-		in = bfc::flags::getValue("input_chain");
 	if (bfc::flags::isSet("init")){
 		if ((bkc::initChain() = file) == "")
 			return;
@@ -61,7 +54,6 @@ void bfc::initActor()
 	} else {
 		readConfFile(file);
 	}
-	bfc::factory<bkc::chain>("chain", bkc::myLog, 4, in, out);
 }
 
 int bfc::main()
@@ -86,6 +78,11 @@ int bfc::main()
 }
 
 
+void bfc::closure()
+{
+	// bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
+}
+
 void bfc::masterThread::readActor()
 {
 	if (bfc::flags::isSet("a") == false)
@@ -93,6 +90,7 @@ void bfc::masterThread::readActor()
 	this->for_each({"cin"}, this->_cin);
 	this->for_each({"server"}, this->_serv);
 	this->for_each({"peer*"}, this->_peer);
+	this->for_each({"chain"}, this->_chain);
 }
 
 void bfc::masterThread::thick()
@@ -105,6 +103,7 @@ void bfc::masterThread::thick()
 		this->cinProto();
 		this->peerProto();
 		this->servProto();
+		this->chainProto();
 	}
 
 	i++;

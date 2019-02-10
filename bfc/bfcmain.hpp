@@ -8,4 +8,5 @@ namespace bfc {
 	std::vector<std::string>	ReqFlags() __attribute__((weak));
 	void				initActor() __attribute__((weak));
 	int				main() __attribute__((weak)); ///< main called by blc after a clean start-up
+	void				closure() __attribute__((weak));
 }

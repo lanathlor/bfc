@@ -15,7 +15,7 @@ namespace bkc {
 		bool	find(const bkc::trans &t);
 		void	clear();
 		bool	exist(const std::string &sign);
-		bool	consumed(const std::string &sign);
+		bool	consumed(const std::string &sign) const;
 
 		std::vector<bkc::trans>	getBySender(const std::string &key) const;
 		std::vector<bkc::trans>	getByReceiver(const std::string &key) const;

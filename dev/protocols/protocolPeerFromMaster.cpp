@@ -51,6 +51,26 @@ void bkc::node::peerCon::masterProto()
 		this->_client << j.dump() << blc::endl << blc::endl;
 		return (0);
 	});
+	this->_masterProto.add(310, [=](std::string str){
+		json j = {
+			{"code", 310},
+			{"data", str},
+			{"user", bkc::myLog.printablePub()}
+		};
+
+		this->_client << j.dump() << blc::endl << blc::endl;
+		return (0);
+	});
+	this->_masterProto.add(320, [=](std::string str){
+		json j = {
+			{"code", 320},
+			{"data", str},
+			{"user", bkc::myLog.printablePub()}
+		};
+
+		this->_client << j.dump() << blc::endl << blc::endl;
+		return (0);
+	});
 	this->_masterProto.add(350, [=](std::string str){
 		json j = {
 			{"code", 350},
@@ -121,6 +141,26 @@ void bkc::node::servCon::masterProto()
 	this->_masterProto.add(305, [=](std::string str){
 		json j = {
 			{"code", 305},
+			{"data", str},
+			{"user", bkc::myLog.printablePub()}
+		};
+
+		this->_client << j.dump() << blc::endl << blc::endl;
+		return (0);
+	});
+	this->_masterProto.add(310, [=](std::string str){
+		json j = {
+			{"code", 310},
+			{"data", str},
+			{"user", bkc::myLog.printablePub()}
+		};
+
+		this->_client << j.dump() << blc::endl << blc::endl;
+		return (0);
+	});
+	this->_masterProto.add(320, [=](std::string str){
+		json j = {
+			{"code", 320},
 			{"data", str},
 			{"user", bkc::myLog.printablePub()}
 		};

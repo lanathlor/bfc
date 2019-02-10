@@ -26,7 +26,11 @@ void bkc::node::cinCon::cinProto()
 		return (0);
 	});
 	this->_cin.add("send", [=](std::string str){
-		this->send(305, str);
+		this->send(310, str);
+		return (0);
+	});
+	this->_cin.add("create", [=](std::string str){
+		this->send(320, str);
 		return (0);
 	});
 }

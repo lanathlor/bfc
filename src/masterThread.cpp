@@ -151,6 +151,12 @@ bfc::actorRep	&bfc::masterThread::actor(const std::string &name)
 	return ((*bfc::masterThread::actors[name]));
 }
 
+bfc::actorRep *bfc::masterThread::rep(const std::string &name)
+{
+	if (bfc::masterThread::actors.find(name) == bfc::masterThread::actors.end())
+		throw blc::error::exception(assertError(std::string("actor \"") + name + "\" doesnt existe"));
+	return bfc::masterThread::actors[name];
+}
 
 bfc::outStream &operator<<(bfc::outStream &stream, bfc::masterThread &master)
 {

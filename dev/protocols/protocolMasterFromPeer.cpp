@@ -52,6 +52,14 @@ void bfc::masterThread::peerProto()
 		bfc::masterThread::actor("chain").send(305, data.second);
 		return (0);
 	});
+	this->_peer.add(310, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bfc::masterThread::actor("chain").send(310, data.second);
+		return (0);
+	});
+	this->_peer.add(320, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bfc::masterThread::actor("chain").send(320, data.second);
+		return (0);
+	});
 	this->_peer.add(350, [](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
 		bfc::cout << "username : " << data.second << blc::endl;
 

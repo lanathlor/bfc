@@ -71,6 +71,10 @@ int blc::main(int ac, std::vector<std::string> av, std::vector<std::string> env)
 		std::cerr << e.what() << std::endl;
 		throw blc::error::exception(assertError("bfc: error in master.lifeCycle or below"));
 	}
+
+	if (bfc::closure){
+		bfc::closure();
+	}
 	if (bfc::input.is_open())
 		bfc::input.close();
 	if (bfc::output.is_open())

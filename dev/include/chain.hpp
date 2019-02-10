@@ -22,15 +22,18 @@ namespace bkc {
 		void		unserialize(const std::string &str);
 		double		getBalance(std::string key) const;
 		std::string	searchProof(const bkc::trans &t) const;
+		bkc::trans	getLeftOver(const bkc::trans &t) const;
 		bkc::trans	consum(const std::string &sign);
+		void		dump() const;
 	private:
 		bool		verify(const bkc::trans &t);
+		double		leftOver(const bkc::trans &t, const bkc::trans &parity);
 		void		add(const bkc::trans &t);
 		void		remove(const bkc::trans &t);
-		void		dump() const;
 		void		load();
 		unsigned char				_admLvl;
 		bkc::rsaKey				_admKey;
+		std::string				_admKeyStr;
 		bkc::book				_book;
 		std::mutex				_access;
 		std::string				_in;

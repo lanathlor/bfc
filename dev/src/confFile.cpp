@@ -10,6 +10,8 @@
 #include "confFile.hpp"
 #include "identity.hpp"
 
+#include "trans.hpp"
+#include "chain.hpp"
 #include "rsaKey.hpp"
 
 #include <stdio.h>
@@ -53,11 +55,21 @@ void readConfFile(const std::string &fileName)
 
 	nlohmann::json j;
 	std::string addr;
+	std::string in = "./dump.dc";
+	std::string out = "./dump.dc";
+	if (bfc::flags::isSet("output_chain"))
+		out = bfc::flags::getValue("output_chain");
+	if (bfc::flags::isSet("input_chain"))
+		in = bfc::flags::getValue("input_chain");
 
 	try {
 		j = nlohmann::json::parse(tmp);
 		addr = j["ip"];
 		port = j["port"].get<int>();
+		bkc::rsaKey admKey;
+
+		admKey.importPub(j["adm_key"].get<std::string>());
+		bfc::factory<bkc::chain>("chain", admKey, j["adm_lvl"].get<int>(), in, out);
 	} catch (blc::error::exception &e) {
 		std::cerr << e.what() << std::endl;
 		throw blc::error::exception(assertError("error parsing conf file"));

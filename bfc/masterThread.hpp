@@ -24,6 +24,7 @@ namespace bfc {
 		template <typename T>
 		static void		print(T &&nb);
 		static bfc::actorRep	&actor(const std::string &name);
+		static bfc::actorRep	*rep(const std::string &name);
 
 		void lifeCycle();
 
@@ -45,6 +46,7 @@ namespace bfc {
 		void cinProto();
 		void peerProto();
 		void servProto();
+		void chainProto();
 
 	private:
 		void thick();
@@ -63,10 +65,10 @@ namespace bfc {
 		blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>>	_cin;
 		blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>>	_serv;
 		blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>>	_peer;
+		blc::tools::protocolFactory<int, std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string>>	_chain;
 
 
 		void readActor();
-
 	};
 
 	using	outStream = masterThread::outStream;
