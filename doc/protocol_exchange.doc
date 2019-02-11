@@ -17,8 +17,13 @@ about the exchange of data between peer
 303 : push disconnected peer.
 305 : push a transaction with signature & without proof.
 310 : push a transaction with signature & proof & parity.
+320 : push a creation with signature.
 350 : push your identity (public key).
 352 : push your identity (port).
+370 : push the current book.
+390 : push a user balance
 
 4xx
 401 : ask for a 302 full response.
+470 : ask for the current book.
+490 : ask for a user balance.

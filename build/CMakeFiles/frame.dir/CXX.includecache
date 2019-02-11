@@ -92,9 +92,21 @@ bfc/exit.hpp
 bfc/masterThread.hpp
 /home/lanath/repo/bfc/src/bfc/masterThread.hpp
 
+/home/lanath/repo/bfc/src/flag.cpp
+blc/serializable.hpp
+-
+blc/errorHandle.hpp
+-
+bfc/flag.hpp
+/home/lanath/repo/bfc/src/bfc/flag.hpp
+
 /home/lanath/repo/bfc/src/masterThread.cpp
 functional
 -
 bfc/masterThread.hpp
 /home/lanath/repo/bfc/src/bfc/masterThread.hpp
+
+/home/lanath/repo/bfc/src/usage.cpp
+bfc/usage.hpp
+/home/lanath/repo/bfc/src/bfc/usage.hpp
 

@@ -42,6 +42,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../dev/.."
   "../dep/libtomcrypt/src/headers"
   "../dep/libtommath"
+  "/usr/local/include"
   )
 
 # Targets to which this target links.

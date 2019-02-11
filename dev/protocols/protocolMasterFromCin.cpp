@@ -74,4 +74,10 @@ void bfc::masterThread::cinProto()
 		}
 		return (0);
 	});
+	this->_cin.add(490, [this](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
+
+		std::cout << "balance: " << chain->getBalance(bkc::myLog.printablePub()) << std::endl;
+		return (0);
+	});
 }

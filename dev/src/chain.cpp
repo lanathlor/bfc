@@ -21,9 +21,16 @@ void bkc::chain::unserialize(const std::string &str)
 	this->_book.unserialize(str);
 }
 
-double bkc::chain::getBalance(std::string key) const
+double bkc::chain::getBalance(const std::string &key) const
 {
-	return (0);
+	std::vector<bkc::trans> v = this->_book.getByReceiver(key);
+	double balance = 0;
+
+	for (auto it : v){
+		if (this->_book.consumed(it.getSign()) == false)
+			balance += it.getAmount();
+	}
+	return (balance);
 }
 
 std::string bkc::chain::searchProof(const bkc::trans &t) const

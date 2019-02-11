@@ -36,6 +36,7 @@ void bfc::initActor()
 	bfc::usage.add({"--input_chain=FILE"}, "file to get the chain state, default is ./dump.dc");
 	bfc::usage.add({"--pub=FILE"}, "select the public key file to read (or write if --create is used)");
 	bfc::usage.add({"--pri=FILE"}, "select the public key file to read (or write if --create is used)");
+	bfc::usage.add({"--conf=FILE"}, "read a designated conf file. default: ./conf.bkc");
 
 	if (bfc::flags::isSet("help")){
 		std::cout << bfc::usage << std::endl;
@@ -68,7 +69,7 @@ int bfc::main()
 
 			bfc::masterThread::actor("adm").send(352, std::to_string(port));
 			bfc::masterThread::actor("adm").send(401);
-			bfc::masterThread::actor("adm").send(301, "ok");
+			bfc::masterThread::actor("adm").send(470);
 			bfc::factory<bkc::node::peerServ>("server", 50, port);
 		}
 	} catch (blc::error::exception &e) {

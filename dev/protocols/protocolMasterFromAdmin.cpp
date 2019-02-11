@@ -3,6 +3,7 @@
 
 #include "peerConnector.hpp"
 #include "connectedPeer.hpp"
+#include "chain.hpp"
 
 void bfc::masterThread::adminProto()
 {
@@ -62,6 +63,15 @@ void bfc::masterThread::adminProto()
 	});
 	this->_adm.add(320, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
 		bfc::masterThread::actor("chain").send(320, data.second);
+		return (0);
+	});
+	this->_adm.add(370, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bfc::masterThread::actor("chain").send(370, data.second);
+		return (0);
+	});
+	this->_adm.add(470, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		std::string str = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"))->serialize();
+		data.first->second << "370" << blc::endl << str << blc::endl;
 		return (0);
 	});
 }

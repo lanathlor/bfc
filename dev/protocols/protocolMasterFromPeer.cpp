@@ -3,6 +3,7 @@
 
 #include "peerConnector.hpp"
 #include "connectedPeer.hpp"
+#include "chain.hpp"
 
 void bfc::masterThread::peerProto()
 {
@@ -41,11 +42,9 @@ void bfc::masterThread::peerProto()
 		return (0);
 	});
 	this->_peer.add(303, [this](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
-		for (auto it = this->_knownPeer.begin(); it != this->_knownPeer.end(); it++){
-			if (*it == data.second){
-				this->_knownPeer.erase(it);
-			}
-		}
+		const bkc::connectedPeer	&con = bkc::connectedPeer::init();
+
+		con.erase(data.second);
 		return (0);
 	});
 	this->_peer.add(305, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
@@ -70,10 +69,19 @@ void bfc::masterThread::peerProto()
 
 		return (0);
 	});
+	this->_peer.add(370, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		bfc::masterThread::actor("chain").send(370, data.second);
+		return (0);
+	});
 	this->_peer.add(401, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
 		const bkc::connectedPeer	&con = bkc::connectedPeer::init();
 
 		data.first->second << "302" << blc::endl << con.serialize() << blc::endl;
+		return (0);
+	});
+	this->_peer.add(470, [=](std::pair<std::map<std::string, blc::tools::pipe>::iterator, std::string> data){
+		std::string str = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"))->serialize();
+		data.first->second << "370" << blc::endl << str << blc::endl;
 		return (0);
 	});
 }

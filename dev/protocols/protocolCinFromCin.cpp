@@ -23,6 +23,8 @@ void bkc::node::cinCon::cinProto()
 		if (str == "p")
 			this->send(420);
 			// this->_pipe << "420" << blc::endl << blc::endl;
+		if (str == "balance")
+			this->send(490);
 		return (0);
 	});
 	this->_cin.add("send", [=](std::string str){

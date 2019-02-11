@@ -1,0 +1,1 @@
+/usr/bin/c++   -g3 -std=c++17 -O2 -fno-stack-protector -DNDEBUG -Wall -fno-rtti -DUSE_LTM -DLTM_DESC -DMP_32BIT  -rdynamic CMakeFiles/bkcnode.dir/src/__dummy.cpp.o  -o bkcnode /usr/local/lib/libblc.a libframe.a dev/libdevobj.a ../dep/libtomcrypt.a ../dep/libtommath.a /usr/local/lib/libblc.a -pthread 

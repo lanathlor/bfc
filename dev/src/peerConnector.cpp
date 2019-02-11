@@ -19,7 +19,6 @@ bkc::node::peerCon::peerCon(blc::tools::pipe pipe, std::string name, std::string
 	}
 
 	this->start();
-	this->_client << json({{"code", 301}, {"data", "ok"}}).dump() << blc::endl << blc::endl;
 }
 
 void bkc::node::peerCon::readMaster()

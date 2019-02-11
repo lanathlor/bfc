@@ -1,6 +1,7 @@
 #include <nlohmann/json.hpp>
 #include "adminConnector.hpp"
 #include "rsaKey.hpp"
+#include "chain.hpp"
 
 using json = nlohmann::json;
 
@@ -67,10 +68,29 @@ void bkc::node::admCon::admProto()
 		this->send(352, j["data"].get<std::string>());
 		return (0);
 	});
+	this->_admProto.add(370, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(370, j["data"].get<std::string>());
+		return (0);
+	});
 	this->_admProto.add(401, [=](std::string str){
 		json j = json::parse(str);
 
 		this->send(401, j["data"].get<std::string>());
+		return (0);
+	});
+	this->_admProto.add(470, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(470, j["data"].get<std::string>());
+		return (0);
+	});
+	this->_admProto.add(490, [=](std::string str){
+		bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
+		json		j = json::parse(str);
+
+		this->_client << "390" << blc::endl << std::to_string(chain->getBalance(j["data"].get<std::string>())) << blc::endl;
 		return (0);
 	});
 }

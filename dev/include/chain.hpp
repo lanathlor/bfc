@@ -20,7 +20,7 @@ namespace bkc {
 
 		std::string 	serialize() const;
 		void		unserialize(const std::string &str);
-		double		getBalance(std::string key) const;
+		double		getBalance(const std::string &key) const;
 		std::string	searchProof(const bkc::trans &t) const;
 		bkc::trans	getLeftOver(const bkc::trans &t) const;
 		bkc::trans	consum(const std::string &sign);

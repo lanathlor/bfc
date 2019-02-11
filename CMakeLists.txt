@@ -46,17 +46,17 @@ target_link_libraries(frame PRIVATE blc)
 
 add_subdirectory(dev/)
 
-add_executable(test src/__dummy.cpp)
+add_executable(bkcnode src/__dummy.cpp)
 
-target_link_libraries(test PRIVATE Threads::Threads)
-target_link_libraries(test PRIVATE blc)
-target_link_libraries(test PRIVATE frame)
-target_link_libraries(test PRIVATE devobj)
-target_link_libraries(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtomcrypt.a)
-target_link_libraries(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtommath.a)
-target_include_directories(test PRIVATE .)
-target_include_directories(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtomcrypt/src/headers)
-target_include_directories(test PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtommath)
+target_link_libraries(bkcnode PRIVATE Threads::Threads)
+target_link_libraries(bkcnode PRIVATE blc)
+target_link_libraries(bkcnode PRIVATE frame)
+target_link_libraries(bkcnode PRIVATE devobj)
+target_link_libraries(bkcnode PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtomcrypt.a)
+target_link_libraries(bkcnode PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtommath.a)
+target_include_directories(bkcnode PRIVATE .)
+target_include_directories(bkcnode PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtomcrypt/src/headers)
+target_include_directories(bkcnode PRIVATE ${CMAKE_SOURCE_DIR}/dep/libtommath)
 
 
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})

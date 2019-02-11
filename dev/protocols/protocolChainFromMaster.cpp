@@ -6,18 +6,6 @@ void bkc::chain::masterProto()
 		bfc::masterThread::remove(str);
 		return (280);
 	});
-	this->_masterProto.add(305, [=](std::string str){
-		bkc::trans t(str);
-
-		if (t.getProof() == "")
-			t.setProof(this->searchProof(t));
-		std::cout << this->verify(t) << std::endl;
-		if (this->verify(t) == true){
-			this->_book.add(t);
-			this->consum(t.getProof());
-		}
-		return (1);
-	});
 	this->_masterProto.add(310, [=](std::string str){
 		json j = json::parse(str);
 		bkc::trans t(j["transaction"].get<std::string>());
@@ -39,5 +27,9 @@ void bkc::chain::masterProto()
 			this->_book.add(t);
 		}
 		return (1);
+	});
+	this->_masterProto.add(370, [=](std::string str){
+		this->unserialize(str); // need to be verified
+		return (0);
 	});
 }

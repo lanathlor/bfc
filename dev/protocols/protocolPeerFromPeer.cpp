@@ -3,6 +3,7 @@
 #include "servConnector.hpp"
 #include "connectedPeer.hpp"
 #include "rsaKey.hpp"
+#include "chain.hpp"
 
 using json = nlohmann::json;
 
@@ -10,6 +11,7 @@ void bkc::node::peerCon::peerProto()
 {
 	this->_peerProto.add(280, [=](std::string str){
 		this->kill();
+		this->send(303, this->_id);
 		this->send(280, this->getName());
 		return (280);
 	});
@@ -59,11 +61,29 @@ void bkc::node::peerCon::peerProto()
 	this->_peerProto.add(352, [=](std::string str){
 		json j = json::parse(str);
 
+		this->_id = this->_client.getAddress() + ":" + j["data"].get<std::string>();
 		this->send(352, this->_client.getAddress() + j["data"].get<std::string>());
+		return (0);
+	});
+	this->_peerProto.add(370, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(370, j["data"].get<std::string>());
 		return (0);
 	});
 	this->_peerProto.add(401, [=](std::string str){
 		this->send(401);
+		return (0);
+	});
+	this->_peerProto.add(470, [=](std::string str){
+		this->send(470);
+		return (0);
+	});
+	this->_peerProto.add(490, [=](std::string str){
+		bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
+		json		j = json::parse(str);
+
+		this->_client << "390" << blc::endl << std::to_string(chain->getBalance(j["data"].get<std::string>())) << blc::endl;
 		return (0);
 	});
 }
@@ -72,6 +92,7 @@ void bkc::node::servCon::peerProto()
 {
 	this->_peerProto.add(280, [=](std::string str){
 		this->kill();
+		this->send(303, this->_id);
 		this->send(280, this->getName());
 		return (280);
 	});
@@ -121,11 +142,29 @@ void bkc::node::servCon::peerProto()
 	this->_peerProto.add(352, [=](std::string str){
 		json j = json::parse(str);
 
+		this->_id = this->_client.getAddress() + ":" + j["data"].get<std::string>();
 		this->send(352, this->_client.getAddress() + ":" + j["data"].get<std::string>());
+		return (0);
+	});
+	this->_peerProto.add(370, [=](std::string str){
+		json j = json::parse(str);
+
+		this->send(370, j["data"].get<std::string>());
 		return (0);
 	});
 	this->_peerProto.add(401, [=](std::string str){
 		this->send(401);
+		return (0);
+	});
+	this->_peerProto.add(470, [=](std::string str){
+		this->send(470);
+		return (0);
+	});
+	this->_peerProto.add(490, [=](std::string str){
+		bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
+		json		j = json::parse(str);
+
+		this->_client << "390" << blc::endl << std::to_string(chain->getBalance(j["data"].get<std::string>())) << blc::endl;
 		return (0);
 	});
 }

@@ -79,9 +79,29 @@ void bkc::node::admCon::masterProto()
 		this->_client << j.dump() << blc::endl << blc::endl;
 		return (0);
 	});
+	this->_masterProto.add(370, [=](std::string str){
+		json j = {
+			{"code", 370},
+			{"data", str},
+			{"user", "lanath"}
+		};
+
+		this->_client << j.dump() << blc::endl << blc::endl;
+		return (0);
+	});
 	this->_masterProto.add(401, [=](std::string str){
 		json j = {
 			{"code", 401},
+			{"data", str},
+			{"user", "lanath"}
+		};
+
+		this->_client << j.dump() << blc::endl << blc::endl;
+		return (0);
+	});
+	this->_masterProto.add(470, [=](std::string str){
+		json j = {
+			{"code", 470},
 			{"data", str},
 			{"user", "lanath"}
 		};

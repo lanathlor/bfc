@@ -53,10 +53,14 @@ bool bkc::connectedPeer::connect(const std::string &str, int port)
 void bkc::connectedPeer::erase(const std::string &str)
 {
 	bkc::connectedPeer::_access.lock();
+	auto tmp = bkc::connectedPeer::_con.end();
+
 	for (auto it = bkc::connectedPeer::_con.begin(); it != bkc::connectedPeer::_con.end(); it++){
 		if (*it == str)
-			bkc::connectedPeer::_con.erase(it);
+			tmp = it;
 	}
+	if (tmp != bkc::connectedPeer::_con.end())
+		bkc::connectedPeer::_con.erase(tmp);
 	bkc::connectedPeer::_access.unlock();
 }
 
