@@ -6,7 +6,6 @@ bkc::chain::chain(blc::tools::pipe &pipe, std::string name, bkc::rsaKey key, uns
 	this->masterProto();
 
 	this->_admKeyStr = this->_admKey.printablePub();
-	std::cout << "ok" << std::endl;
 	this->load();
 	this->start();
 }

@@ -28,6 +28,7 @@ void bfc::initActor()
 
 	bfc::usage.add({"--help"}, "show this helper");
 	bfc::usage.add({"--create"}, "create a pair of key. will erase already existing key");
+	bfc::usage.add({"--conf=FILE"}, "chain conf file to use. default is ./conf.bkc");
 	bfc::usage.add({"--init=CHAIN_NAME"}, "create a init file for a new chain");
 	bfc::usage.add({"--use"}, "use the newly created key and/or configuration file to run");
 	bfc::usage.add({"--a"}, "run as admin of the chain");

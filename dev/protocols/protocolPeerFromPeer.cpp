@@ -17,15 +17,8 @@ void bkc::node::peerCon::peerProto()
 	});
 	this->_peerProto.add(301, [=](std::string str){
 		json j = json::parse(str);
-		bkc::rsaKey key;
 
-		try {
-			key.importPub(j["user"].get<std::string>());
-			if (key.verifyPrintable(j["data"].get<std::string>(), j["sign"].get<std::string>()))
-				this->send(301, j["data"].get<std::string>());
-		} catch (json::type_error &e) {
-			bfc::cout << this->getName() << ": data badly formated" << blc::endl;
-		}
+		this->send(301, j["data"].get<std::string>());
 		return (0);
 	});
 	this->_peerProto.add(302, [=](std::string str){
@@ -35,9 +28,19 @@ void bkc::node::peerCon::peerProto()
 		return (0);
 	});
 	this->_peerProto.add(305, [=](std::string str){
+		bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
 		json j = json::parse(str);
+		bkc::trans t(j["data"].get<std::string>());
 
-		this->send(305, j["data"].get<std::string>());
+		t.setProof(chain->searchProof(t));
+		bkc::trans parity = chain->getLeftOver(t);
+
+		parity.setProof(t.getProof());
+		j["code"] = 405;
+		j["data"]["transaction"] = t.serialize();
+		j["data"]["parity"] = parity.serialize();
+
+		this->_client << j.dump() << blc::endl << blc::endl;
 		return (0);
 	});
 	this->_peerProto.add(310, [=](std::string str){
@@ -82,8 +85,12 @@ void bkc::node::peerCon::peerProto()
 	this->_peerProto.add(490, [=](std::string str){
 		bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
 		json		j = json::parse(str);
+		json		res = {
+			{"code", 390},
+			{"data", chain->getBalance(j["data"].get<std::string>())}
+		};
 
-		this->_client << "390" << blc::endl << std::to_string(chain->getBalance(j["data"].get<std::string>())) << blc::endl;
+		this->_client << res.dump() << blc::endl << blc::endl;
 		return (0);
 	});
 }
@@ -98,15 +105,8 @@ void bkc::node::servCon::peerProto()
 	});
 	this->_peerProto.add(301, [=](std::string str){
 		json j = json::parse(str);
-		bkc::rsaKey key;
 
-		try {
-			key.importPub(j["user"].get<std::string>());
-			if (key.verifyPrintable(j["data"].get<std::string>(), j["sign"].get<std::string>()))
-				this->send(301, j["data"].get<std::string>());
-		} catch (json::type_error &e) {
-			bfc::cout << this->getName() << ": data badly formated" << blc::endl;
-		}
+		this->send(301, j["data"].get<std::string>());
 		return (0);
 	});
 	this->_peerProto.add(302, [=](std::string str){
@@ -116,9 +116,19 @@ void bkc::node::servCon::peerProto()
 		return (0);
 	});
 	this->_peerProto.add(305, [=](std::string str){
+		bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
 		json j = json::parse(str);
+		bkc::trans t(j["data"].get<std::string>());
 
-		this->send(305, j["data"].get<std::string>());
+		t.setProof(chain->searchProof(t));
+		bkc::trans parity = chain->getLeftOver(t);
+
+		parity.setProof(t.getProof());
+		j["code"] = 405;
+		j["data"]["transaction"] = t.serialize();
+		j["data"]["parity"] = parity.serialize();
+
+		this->_client << j.dump() << blc::endl << blc::endl;
 		return (0);
 	});
 	this->_peerProto.add(310, [=](std::string str){
@@ -163,8 +173,12 @@ void bkc::node::servCon::peerProto()
 	this->_peerProto.add(490, [=](std::string str){
 		bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
 		json		j = json::parse(str);
+		json		res = {
+			{"code", 390},
+			{"data", chain->getBalance(j["data"].get<std::string>())}
+		};
 
-		this->_client << "390" << blc::endl << std::to_string(chain->getBalance(j["data"].get<std::string>())) << blc::endl;
+		this->_client << res.dump() << blc::endl << blc::endl;
 		return (0);
 	});
 }

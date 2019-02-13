@@ -25,5 +25,6 @@ about the exchange of data between peer
 
 4xx
 401 : ask for a 302 full response.
+405 : ask for a transaction to be signed.
 470 : ask for the current book.
 490 : ask for a user balance.
