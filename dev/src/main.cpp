@@ -82,7 +82,9 @@ int bfc::main()
 
 void bfc::closure()
 {
-	// bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
+	bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
+
+	chain->dump();
 }
 
 void bfc::masterThread::readActor()

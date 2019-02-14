@@ -34,7 +34,7 @@ double bkc::chain::getBalance(const std::string &key) const
 
 std::string bkc::chain::searchProof(const bkc::trans &t) const
 {
-	std::vector<bkc::trans> v = this->_book.getBySender(t.getSender());
+	std::vector<bkc::trans> v = this->_book.getByReceiver(t.getSender());
 
 	for (auto it : v){
 		if (it.getAmount() >= t.getAmount() && this->_book.consumed(it.getSign()) == false)
@@ -69,6 +69,10 @@ bkc::trans bkc::chain::consum(const std::string &sign)
 
 bool bkc::chain::verify(const bkc::trans &t)
 {
+	bkc::trans proof = this->_book.getBySign(t.getProof());
+
+	if (t.getSender() != proof.getReceiver())
+		return (false);
 	if (t.check() == false)
 		return (false);
 	if (this->_book.exist(t.getProof()) == false)
@@ -127,5 +131,5 @@ void bkc::chain::thick()
 	if (this->_pipe.readable()) {
 		this->readMaster();
 	}
-	this->dump();
+	// this->dump();
 }

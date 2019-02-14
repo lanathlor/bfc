@@ -1,6 +1,8 @@
 #include <bfc/masterThread.hpp>
 #include "cinConnector.hpp"
 
+#include "chain.hpp"
+
 void bkc::node::cinCon::cinProto()
 {
 	this->_cin.add("quit", [=](std::string str){
@@ -33,6 +35,12 @@ void bkc::node::cinCon::cinProto()
 	});
 	this->_cin.add("create", [=](std::string str){
 		this->send(320, str);
+		return (0);
+	});
+	this->_cin.add("dump", [=](std::string str){
+		bkc::chain	*chain = dynamic_cast<bkc::chain *>(bfc::masterThread::rep("chain"));
+
+		chain->dump();
 		return (0);
 	});
 }

@@ -37,8 +37,10 @@ void bkc::node::peerCon::peerProto()
 
 		parity.setProof(t.getProof());
 		j["code"] = 405;
-		j["data"]["transaction"] = t.serialize();
-		j["data"]["parity"] = parity.serialize();
+		j["data"] = {
+			{"transaction", t.serialize()},
+			{"parity", parity.serialize()}
+		};
 
 		this->_client << j.dump() << blc::endl << blc::endl;
 		return (0);
@@ -125,8 +127,10 @@ void bkc::node::servCon::peerProto()
 
 		parity.setProof(t.getProof());
 		j["code"] = 405;
-		j["data"]["transaction"] = t.serialize();
-		j["data"]["parity"] = parity.serialize();
+		j["data"] = {
+			{"transaction", t.serialize()},
+			{"parity", parity.serialize()}
+		};
 
 		this->_client << j.dump() << blc::endl << blc::endl;
 		return (0);
