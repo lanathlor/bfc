@@ -30,7 +30,6 @@ namespace bfc {
 
 		static std::map<std::string, bfc::actorRep *>		actors;
 		static std::map<std::string, blc::tools::pipe>		masterPipe;
-		static std::vector<std::string>				peerServer;
 		static std::string					_myself;
 
 		class outStream {

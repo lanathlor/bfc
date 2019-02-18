@@ -1,4 +1,3 @@
-#include <ctime>
 #include "trans.hpp"
 
 bkc::trans::trans(std::string str)

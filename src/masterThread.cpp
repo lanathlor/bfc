@@ -37,7 +37,6 @@ void bfc::masterThread::kill()
 {
 	bfc::masterThread::for_each("*", [](std::map<std::string, blc::tools::pipe>::iterator it){
 		std::cout << "killing: " << it->first << std::endl;
-		// it->second << "280" << blc::endl << it->first << blc::endl;
 		(*bfc::masterThread::actors[it->first]).send(280);
 	});
 	bfc::masterThread::live = false;
@@ -49,6 +48,8 @@ void bfc::masterThread::for_each(const std::string &filter, std::function<void(s
 		if (blc::tools::regex(filter, it->first)){
 			callback(it);
 		}
+		if (bfc::masterThread::masterPipe.count(it->first) == 0)
+			break;
 	}
 }
 
@@ -65,9 +66,7 @@ void bfc::masterThread::for_each(const std::vector<std::string> &filters, blc::t
 				}
 				std::string data = it->second.read();
 
-				if (protoFact.activate(code, std::make_pair(it, data)) == 280){
-					bfc::masterThread::remove(it->first);
-				}
+				protoFact.activate(code, std::make_pair(it, data));
 			}
 		});
 	}

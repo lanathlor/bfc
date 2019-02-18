@@ -1,6 +1,7 @@
 #pragma once
 
 #include <blc/blc.hpp>
+#include <ctime>
 #include <nlohmann/json.hpp>
 #include "rsaKey.hpp"
 
@@ -9,7 +10,7 @@ using json = nlohmann::json;
 namespace bkc {
 	class trans : public blc::tools::serializable {
 	public:
-		trans() = default;
+		trans() : _timestamp(std::time(nullptr)), _amount(0){};
 		trans(std::string str);
 		trans(const json &j);
 		trans(const trans &other) = default;

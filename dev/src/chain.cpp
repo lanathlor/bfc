@@ -45,11 +45,15 @@ std::string bkc::chain::searchProof(const bkc::trans &t) const
 
 bkc::trans bkc::chain::getLeftOver(const bkc::trans &t) const
 {
+	bkc::trans parity;
+	if (t.getProof() == "")
+		return (parity);
 	bkc::trans 		proof(this->_book.getBySign(t.getProof()));
 	double			already_spent = 0;
+	double			tmp;
 
-	double tmp = proof.getAmount() - t.getAmount();
-	bkc::trans parity = bkc::trans::createTrans(proof.getSender(), proof.getSender(), round(tmp * 1000.0) / 1000.0, bkc::myLog);
+	tmp = proof.getAmount() - t.getAmount();
+	parity = bkc::trans::createTrans(proof.getReceiver(), proof.getReceiver(), round(tmp * 1000.0) / 1000.0, bkc::myLog);
 	return (parity);
 }
 

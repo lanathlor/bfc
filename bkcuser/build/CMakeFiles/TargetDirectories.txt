@@ -1,0 +1,7 @@
+/home/lanath/repo/bfc/bkcuser/build/CMakeFiles/edit_cache.dir
+/home/lanath/repo/bfc/bkcuser/build/CMakeFiles/frame.dir
+/home/lanath/repo/bfc/bkcuser/build/CMakeFiles/rebuild_cache.dir
+/home/lanath/repo/bfc/bkcuser/build/CMakeFiles/bkcuser.dir
+/home/lanath/repo/bfc/bkcuser/build/dev/CMakeFiles/rebuild_cache.dir
+/home/lanath/repo/bfc/bkcuser/build/dev/CMakeFiles/devobj.dir
+/home/lanath/repo/bfc/bkcuser/build/dev/CMakeFiles/edit_cache.dir
