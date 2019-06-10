@@ -5,7 +5,7 @@
 #include "trans.hpp"
 
 namespace bkc {
-	class trader : public blc::tools::nonCopyable {
+	class trader : public blc::symbole::nonCopyable {
 	public:
 		trader() = delete;
 		trader(const std::string &pubKey, const std::string &privKey, const std::string &add, int port);
